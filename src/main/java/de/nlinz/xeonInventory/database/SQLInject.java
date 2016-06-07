@@ -30,7 +30,7 @@ public class SQLInject {
         try {
 
             String playerUUID = player.getUniqueId().toString();
-            Connection conn = manager.getConnection("cookieInventory");
+            Connection conn = manager.getConnection("xeonInventory");
             PreparedStatement sql = conn.prepareStatement(
                     "SELECT inventoryData, armorData, enderData, potionData, level, exp, maxHealth, health, food, gamemodeData, fireticks, slot, fly, vanish FROM inventoryData WHERE uuid = '"
                             + playerUUID + "';");
@@ -83,7 +83,7 @@ public class SQLInject {
         ConnectionManager manager = ConnectionManager.DEFAULT;
         try {
 
-            Connection conn = manager.getConnection("cookieInventory");
+            Connection conn = manager.getConnection("xeonInventory");
             if (unlock) {
                 PreparedStatement sql = conn.prepareStatement("UPDATE inventoryData SET lockState = '" + 0 + "', time = '" + now.getTime() + "', inventoryData = '" + invData + "', armorData = '"
                         + armorData + "', enderData = '" + endData + "', potionData = '" + potionData + "', level = '" + level + "', exp = '" + exp + "', maxHealth = '" + maxHealth + "', health = '"
@@ -109,7 +109,7 @@ public class SQLInject {
     public static void lockInventory(UUID uuid) {
         ConnectionManager manager = ConnectionManager.DEFAULT;
         try {
-            Connection conn = manager.getConnection("cookieInventory");
+            Connection conn = manager.getConnection("xeonInventory");
             PreparedStatement sql = conn.prepareStatement("UPDATE inventoryData SET lockState = '" + 1 + "' WHERE uuid = '" + uuid.toString() + "';");
             sql.executeUpdate();
             sql.close();
@@ -123,7 +123,7 @@ public class SQLInject {
         ConnectionManager manager = ConnectionManager.DEFAULT;
         try {
 
-            Connection conn = manager.getConnection("cookieInventory");
+            Connection conn = manager.getConnection("xeonInventory");
             PreparedStatement sql = conn.prepareStatement("UPDATE inventoryData SET lockState = '" + 0 + "' WHERE uuid = '" + uuid.toString() + "';");
             sql.executeUpdate();
             sql.close();
@@ -136,7 +136,7 @@ public class SQLInject {
     public static void createInventory(UUID uuid) {
         ConnectionManager manager = ConnectionManager.DEFAULT;
         try {
-            Connection conn = manager.getConnection("cookieInventory");
+            Connection conn = manager.getConnection("xeonInventory");
             PreparedStatement sql = conn.prepareStatement("INSERT INTO inventoryData (uuid, lockState) VALUES ('" + uuid.toString() + "', '" + 1 + "');");
             sql.executeUpdate();
             sql.close();
@@ -149,7 +149,7 @@ public class SQLInject {
     public static boolean hasInventory(UUID uuid) {
         ConnectionManager manager = ConnectionManager.DEFAULT;
         try {
-            Connection conn = manager.getConnection("cookieInventory");
+            Connection conn = manager.getConnection("xeonInventory");
             PreparedStatement sql = conn.prepareStatement("SELECT uuid FROM inventoryData WHERE uuid = '" + uuid.toString() + "';");
             ResultSet result = sql.executeQuery();
             boolean exist = result.next();
@@ -167,7 +167,7 @@ public class SQLInject {
     public static boolean isInventoryLocked(UUID uuid) {
         ConnectionManager manager = ConnectionManager.DEFAULT;
         try {
-            Connection conn = manager.getConnection("cookieInventory");
+            Connection conn = manager.getConnection("xeonInventory");
             PreparedStatement sql = conn.prepareStatement("SELECT lockState FROM inventoryData WHERE uuid = '" + uuid.toString() + "';");
             ResultSet result = sql.executeQuery();
             if (result.next()) {
@@ -192,7 +192,7 @@ public class SQLInject {
         InventoryHistory data = null;
         ConnectionManager manager = ConnectionManager.DEFAULT;
         try {
-            Connection conn = manager.getConnection("cookieInventory");
+            Connection conn = manager.getConnection("xeonInventory");
             PreparedStatement sql = conn.prepareStatement(
                     "SELECT inventoryData, armorData, enderData, potionData, level, exp, maxHealth, health, food, gamemodeData, fireticks, slot, fly, vanish FROM inventoryHistory WHERE id = '" + id
                             + "';");
@@ -228,7 +228,7 @@ public class SQLInject {
         ConnectionManager manager = ConnectionManager.DEFAULT;
         try {
             InventoryHistory data = null;
-            Connection conn = manager.getConnection("cookieInventory");
+            Connection conn = manager.getConnection("xeonInventory");
             PreparedStatement sql = conn.prepareStatement(
                     "SELECT inventoryData, armorData, enderData, potionData, level, exp, maxHealth, health, food, gamemodeData, fireticks, slot, fly, vanish FROM inventoryData WHERE uuid = '"
                             + playerUUID + "';");

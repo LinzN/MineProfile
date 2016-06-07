@@ -33,7 +33,7 @@ public class CommandVanish implements CommandExecutor {
     public boolean onCommand(final CommandSender sender, Command cmd, String label, final String[] args) {
         executorServiceCommands.submit(new Runnable() {
             public void run() {
-                if (sender.hasPermission("cookieinventory.team.vanish")) {
+                if (sender.hasPermission("xeonInventory.team.vanish")) {
                     if (args.length == 0) {
                         Player player = (Player) sender;
                         if (CVanishMode.isInVanishMode(player)) {

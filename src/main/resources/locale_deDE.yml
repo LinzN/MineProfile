@@ -25,5 +25,5 @@ messages:
   weatherAvailable: '§cVerfügbar: SUN, RAIN, THUNDER'
   gamemodeError: '§cBenutze: /gm (GameMode) oder /gm <Spieler> (GameMode)'
 interfaceHelp1:
-  title1: '§e§n§6-==============[§2§lCookieInventory§r§6]==============-'
+  title1: '§e§n§6-==============[§2§lxeonInventory§r§6]==============-'
   title2: ' §aInventar bei Fehler manuell laden : §e/inv load'

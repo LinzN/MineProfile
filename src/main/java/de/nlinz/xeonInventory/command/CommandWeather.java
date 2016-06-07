@@ -33,7 +33,7 @@ public class CommandWeather implements CommandExecutor {
     public boolean onCommand(final CommandSender sender, Command cmd, String label, final String[] args) {
         executorServiceCommands.submit(new Runnable() {
             public void run() {
-                if (sender.hasPermission("cookieinventory.team.weather")) {
+                if (sender.hasPermission("xeonInventory.team.weather")) {
                     if (args.length == 0) {
                         sender.sendMessage(I18n.translate("messages.weatherError"));
                         sender.sendMessage(I18n.translate("messages.weatherAvailable"));

@@ -5,5 +5,5 @@ messages:
   successLoaded: '§aYour playerdata has been loaded!'
   unsuccessLoaded: '§cError! Please try to use §a/inv load §c to load your inventory manual!'
 interfaceHelp1:
-  title1: '§e§n§6-==============[§2§lCookieInventory§r§6]==============-'
+  title1: '§e§n§6-==============[§2§lxeonInventory§r§6]==============-'
   title2: ' §aLoad your inventory after an error manual: §e/inv load'

@@ -20,7 +20,7 @@ public class DatabaseSetup {
         String password = InventoryPlugin.inst().getConfig().getString("sql.password");
         ConnectionFactory factory = new ConnectionFactory(url, username, password);
         ConnectionManager manager = ConnectionManager.DEFAULT;
-        ConnectionHandler handler = manager.getHandler("cookieInventory", factory);
+        ConnectionHandler handler = manager.getHandler("xeonInventory", factory);
 
         try {
             Connection connection = handler.getConnection();
@@ -36,10 +36,10 @@ public class DatabaseSetup {
 
         } catch (Exception e) {
             InventoryPlugin.inst().getLogger().warning("Database error!");
-            InventoryPlugin.inst().getLogger().warning("============CookieInventory-Error=============");
+            InventoryPlugin.inst().getLogger().warning("============xeonInventory-Error=============");
             InventoryPlugin.inst().getLogger().warning("Unable to connect to database.");
             InventoryPlugin.inst().getLogger().warning("Pls check you mysql connection in config.yml.");
-            InventoryPlugin.inst().getLogger().warning("============CookieInventory-Error=============");
+            InventoryPlugin.inst().getLogger().warning("============xeonInventory-Error=============");
             if (InventoryPlugin.inst().getConfig().getBoolean("sql.debugmode")) {
                 e.printStackTrace();
             }

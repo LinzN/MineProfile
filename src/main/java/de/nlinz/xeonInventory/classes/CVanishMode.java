@@ -29,7 +29,7 @@ public class CVanishMode {
 
                     for (Player p : Bukkit.getOnlinePlayers()) {
                         if (p != player) {
-                            if (!p.hasPermission("cookieinventory.team.vanish")) {
+                            if (!p.hasPermission("xeonInventory.team.vanish")) {
                                 p.hidePlayer(player);
                             }
                         }
@@ -78,7 +78,7 @@ public class CVanishMode {
     }
 
     public static void setVanishedHashMapForPlayer(Player player) {
-        if (!player.hasPermission("cookieinventory.team.vanish")) {
+        if (!player.hasPermission("xeonInventory.team.vanish")) {
             Iterator<UUID> iterator = HashDB.vanish.iterator();
             while (iterator.hasNext()) {
                 Player vp = Bukkit.getPlayer(iterator.next());

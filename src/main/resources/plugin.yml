@@ -5,75 +5,75 @@ author: Kekshaus
 main: de.nlinz.xeonInventory.InventoryPlugin
 commands:
    inv:
-      description: Alle CookieInventory Commands
+      description: Alle xeonInventory Commands
       usage: /<command>
       aliases: [cinv]
    fly:
-      description: Alle CookieInventory Commands
+      description: Alle xeonInventory Commands
       usage: /<command>
       aliases: [cfly]
    gm:
-      description: Alle CookieInventory Commands
+      description: Alle xeonInventory Commands
       usage: /<command>
       aliases: [gamemode, cgm]
    vanish:
-      description: Alle CookieInventory Commands
+      description: Alle xeonInventory Commands
       usage: /<command>
       aliases: [cvanish, v]
    give:
-      description: Alle CookieInventory Commands
+      description: Alle xeonInventory Commands
       usage: /<command>
    time:
-      description: Alle CookieInventory Commands
+      description: Alle xeonInventory Commands
       usage: /<command>
    weather:
-      description: Alle CookieInventory Commands
+      description: Alle xeonInventory Commands
       usage: /<command>
    clear:
-      description: Alle CookieInventory Commands
+      description: Alle xeonInventory Commands
       usage: /<command>
 permissions:
-    cookieinventory.team:
+    xeonInventory.team:
         description: Alle Permissions
         children:
-            cookieinventory.default: true
-            cookieinventory.team.fly: true
-            cookieinventory.team.gamemode: true
-            cookieinventory.team.gamemodeOther: true
-            cookieinventory.team.vanish: true
-            cookieinventory.team.give: true
-            cookieinventory.team.time: true
-            cookieinventory.team.weather: true
-            cookieinventory.team.clear: true
-    cookieinventory.default:
+            xeonInventory.default: true
+            xeonInventory.team.fly: true
+            xeonInventory.team.gamemode: true
+            xeonInventory.team.gamemodeOther: true
+            xeonInventory.team.vanish: true
+            xeonInventory.team.give: true
+            xeonInventory.team.time: true
+            xeonInventory.team.weather: true
+            xeonInventory.team.clear: true
+    xeonInventory.default:
         description: Alle Permissions
         children:
-            cookieinventory.cmd.help: true
-            cookieinventory.cmd.load: true
-    cookieinventory.cmd.help:
+            xeonInventory.cmd.help: true
+            xeonInventory.cmd.load: true
+    xeonInventory.cmd.help:
         description: help
         default: op
-    cookieinventory.cmd.load:
+    xeonInventory.cmd.load:
         description: load
         default: op
-    cookieinventory.team.fly:
+    xeonInventory.team.fly:
         description: load
         default: op
-    cookieinventory.team.gamemode:
+    xeonInventory.team.gamemode:
         description: load
         default: op
-    cookieinventory.team.gamemodeOther:
+    xeonInventory.team.gamemodeOther:
         description: load
         default: op
-    cookieinventory.team.vanish:
+    xeonInventory.team.vanish:
         description: load
         default: op
-    cookieinventory.team.weather:
+    xeonInventory.team.weather:
         description: load
         default: op
-    cookieinventory.team.time:
+    xeonInventory.team.time:
         description: load
         default: op
-    cookieinventory.team.clear:
+    xeonInventory.team.clear:
         description: load
         default: op

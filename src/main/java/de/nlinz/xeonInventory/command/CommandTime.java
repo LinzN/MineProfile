@@ -33,7 +33,7 @@ public class CommandTime implements CommandExecutor {
     public boolean onCommand(final CommandSender sender, Command cmd, String label, final String[] args) {
         executorServiceCommands.submit(new Runnable() {
             public void run() {
-                if (sender.hasPermission("cookieinventory.team.time")) {
+                if (sender.hasPermission("xeonInventory.team.time")) {
                     if (args.length == 0) {
                         sender.sendMessage(I18n.translate("messages.timeError"));
                         sender.sendMessage(I18n.translate("messages.timeAvailable"));

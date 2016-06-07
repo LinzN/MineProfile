@@ -39,7 +39,7 @@ public class CommandGameMode implements CommandExecutor {
                 } else if (args.length > 0) {
                     if (args.length == 1) {
                         Player player = (Player) sender;
-                        if (sender.hasPermission("cookieinventory.team.gamemode")) {
+                        if (sender.hasPermission("xeonInventory.team.gamemode")) {
                             if (args[0].equalsIgnoreCase("0") || args[0].equalsIgnoreCase("survival")) {
                                 new CGameMode(player, 0, true);
                             } else if (args[0].equalsIgnoreCase("1") || args[0].equalsIgnoreCase("creative")) {
@@ -61,7 +61,7 @@ public class CommandGameMode implements CommandExecutor {
                             sender.sendMessage(I18n.translate("messages.notOnline"));
                             return;
                         }
-                        if (sender.hasPermission("cookieinventory.team.gamemodeOther")) {
+                        if (sender.hasPermission("xeonInventory.team.gamemodeOther")) {
                             if (args[1].equalsIgnoreCase("0") || args[1].equalsIgnoreCase("survival")) {
                                 new CGameMode(player, 0, true);
                                 sender.sendMessage("§aGameMode von " + args[0] + " zu Survival geändert!");

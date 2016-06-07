@@ -34,7 +34,7 @@ public class CommandClear implements CommandExecutor {
     public boolean onCommand(final CommandSender sender, Command cmd, String label, final String[] args) {
         executorServiceCommands.submit(new Runnable() {
             public void run() {
-                if (sender.hasPermission("cookieinventory.team.clear")) {
+                if (sender.hasPermission("xeonInventory.team.clear")) {
                     if (args.length == 0) {
                         Player player = (Player) sender;
                         new CClear(player);

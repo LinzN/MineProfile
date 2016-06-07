@@ -37,7 +37,7 @@ public class CommandGive implements CommandExecutor {
         executorServiceCommands.submit(new Runnable() {
             @SuppressWarnings("deprecation")
             public void run() {
-                if (sender.hasPermission("cookieinventory.team.give")) {
+                if (sender.hasPermission("xeonInventory.team.give")) {
                     if (args.length < 1) {
                         sender.sendMessage(I18n.translate("messages.giveError"));
                     } else if (args.length >= 1) {

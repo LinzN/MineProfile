@@ -34,7 +34,7 @@ public class CommandFly implements CommandExecutor {
     public boolean onCommand(final CommandSender sender, Command cmd, String label, final String[] args) {
         executorServiceCommands.submit(new Runnable() {
             public void run() {
-                if (sender.hasPermission("cookieinventory.team.fly")) {
+                if (sender.hasPermission("xeonInventory.team.fly")) {
                     if (args.length == 0) {
                         Player player = (Player) sender;
 

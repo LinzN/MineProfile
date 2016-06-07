@@ -55,7 +55,7 @@ public class CommandInv implements CommandExecutor {
 
     public void load(final CommandSender sender, final String[] args) {
         Player player = (Player) sender;
-        if (sender.hasPermission("cookieinventory.cmd.load")) {
+        if (sender.hasPermission("xeonInventory.cmd.load")) {
             if (CookieApi.isPlayerHashLoadet(player.getUniqueId())) {
                 sender.sendMessage(I18n.translate("messages.alreadyLoaded"));
                 return;
@@ -70,12 +70,12 @@ public class CommandInv implements CommandExecutor {
     }
 
     public void version(final CommandSender sender, final String[] args) {
-        sender.sendMessage(ChatColor.GREEN + "CookieInventory version: " + ChatColor.LIGHT_PURPLE + InventoryPlugin.inst().pdf.getVersion());
+        sender.sendMessage(ChatColor.GREEN + "xeonInventory version: " + ChatColor.LIGHT_PURPLE + InventoryPlugin.inst().pdf.getVersion());
         return;
     }
 
     private void help(CommandSender sender) {
-        if (sender.hasPermission("cookieinventory.cmd.help")) {
+        if (sender.hasPermission("xeonInventory.cmd.help")) {
             sender.sendMessage(I18n.translate("interfaceHelp1.title1"));
             sender.sendMessage(I18n.translate("interfaceHelp1.title2"));
         } else {
