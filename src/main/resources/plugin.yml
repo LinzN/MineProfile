@@ -1,0 +1,79 @@
+name: XeonInventory
+version: ${project.version}.b${build.number}
+description: SQL Inventory plugin for networksync
+author: Kekshaus
+main: de.nlinz.xeonInventory.InventoryPlugin
+commands:
+   inv:
+      description: Alle CookieInventory Commands
+      usage: /<command>
+      aliases: [cinv]
+   fly:
+      description: Alle CookieInventory Commands
+      usage: /<command>
+      aliases: [cfly]
+   gm:
+      description: Alle CookieInventory Commands
+      usage: /<command>
+      aliases: [gamemode, cgm]
+   vanish:
+      description: Alle CookieInventory Commands
+      usage: /<command>
+      aliases: [cvanish, v]
+   give:
+      description: Alle CookieInventory Commands
+      usage: /<command>
+   time:
+      description: Alle CookieInventory Commands
+      usage: /<command>
+   weather:
+      description: Alle CookieInventory Commands
+      usage: /<command>
+   clear:
+      description: Alle CookieInventory Commands
+      usage: /<command>
+permissions:
+    cookieinventory.team:
+        description: Alle Permissions
+        children:
+            cookieinventory.default: true
+            cookieinventory.team.fly: true
+            cookieinventory.team.gamemode: true
+            cookieinventory.team.gamemodeOther: true
+            cookieinventory.team.vanish: true
+            cookieinventory.team.give: true
+            cookieinventory.team.time: true
+            cookieinventory.team.weather: true
+            cookieinventory.team.clear: true
+    cookieinventory.default:
+        description: Alle Permissions
+        children:
+            cookieinventory.cmd.help: true
+            cookieinventory.cmd.load: true
+    cookieinventory.cmd.help:
+        description: help
+        default: op
+    cookieinventory.cmd.load:
+        description: load
+        default: op
+    cookieinventory.team.fly:
+        description: load
+        default: op
+    cookieinventory.team.gamemode:
+        description: load
+        default: op
+    cookieinventory.team.gamemodeOther:
+        description: load
+        default: op
+    cookieinventory.team.vanish:
+        description: load
+        default: op
+    cookieinventory.team.weather:
+        description: load
+        default: op
+    cookieinventory.team.time:
+        description: load
+        default: op
+    cookieinventory.team.clear:
+        description: load
+        default: op

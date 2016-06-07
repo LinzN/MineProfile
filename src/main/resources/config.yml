@@ -1,0 +1,26 @@
+Plugin:
+# Language enEN and deDE.
+  locale: deDE
+# Show console load and save message.
+  debug: false
+# Autosave scheduler
+  autosave: true
+# Autosavetime in seconds!
+  autosavetime: 240
+# Cleanup userfiles after a player is (default 90 days) offline!
+# Not implemented yet!
+# cleandata in days
+  cleandata: 90   
+
+# Database connection
+sql:
+  host: localhost
+  port: 3306
+  database: database
+  username: username
+  password: password
+  debugmode: false
+
+Config:
+# Do not touch!
+  version: 1.0
