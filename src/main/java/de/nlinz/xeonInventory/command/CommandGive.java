@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 
 import de.nlinz.xeonInventory.classes.CGive;
 import de.nlinz.xeonInventory.config.I18n;
+import de.nlinz.xeonInventory.core.CookieApi;
 
 /**
  * Copyright:
@@ -33,8 +34,10 @@ public class CommandGive implements CommandExecutor {
         executorServiceCommands = new ThreadPoolExecutor(1, 1, 250L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
     }
 
+    @Override
     public boolean onCommand(final CommandSender sender, Command cmd, String label, final String[] args) {
         executorServiceCommands.submit(new Runnable() {
+            @Override
             @SuppressWarnings("deprecation")
             public void run() {
                 if (sender.hasPermission("xeonInventory.team.give")) {
@@ -68,6 +71,7 @@ public class CommandGive implements CommandExecutor {
                             }
 
                             ItemStack stack = new ItemStack(material, amount, data);
+                            stack = CookieApi.setArtificiallyItem(player.getName(), stack);
                             new CGive(player, stack);
 
                         } else {

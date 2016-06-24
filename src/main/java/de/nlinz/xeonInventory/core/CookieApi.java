@@ -1,5 +1,7 @@
 package de.nlinz.xeonInventory.core;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -7,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 
 import de.nlinz.xeonInventory.InventoryPlugin;
@@ -33,6 +36,7 @@ public class CookieApi {
 
     public static void clearInventory(final Player player) {
         InventoryPlugin.inst().getServer().getScheduler().runTask(InventoryPlugin.inst(), new Runnable() {
+            @Override
             public void run() {
                 player.getInventory().setHelmet(new ItemStack(Material.AIR));
                 player.getInventory().setChestplate(new ItemStack(Material.AIR));
@@ -145,6 +149,7 @@ public class CookieApi {
     public static void setData(final Player player, final InventoryData data) {
 
         InventoryPlugin.inst().getServer().getScheduler().runTask(InventoryPlugin.inst(), new Runnable() {
+            @Override
             public void run() {
                 player.getInventory().setContents(data.getInventoryContent());
                 if (player.getInventory().getContents() != data.getInventoryContent())
@@ -177,6 +182,7 @@ public class CookieApi {
 
     public static void addHistory(final Player player) {
         InventoryPlugin.inst().getServer().getScheduler().runTaskAsynchronously(InventoryPlugin.inst(), new Runnable() {
+            @Override
             public void run() {
                 SQLInject.createHistory(player.getUniqueId());
             }
@@ -210,6 +216,7 @@ public class CookieApi {
         final InventoryData savedData = data;
         if (newTask) {
             InventoryPlugin.inst().getServer().getScheduler().runTaskAsynchronously(InventoryPlugin.inst(), new Runnable() {
+                @Override
                 public void run() {
                     SQLInject.saveInventory(savedData, logout);
                 }
@@ -223,6 +230,7 @@ public class CookieApi {
     public static void startPlayerSavingScheduler(final Player p) {
         final long time = 20L * InventoryPlugin.inst().getCookieConfig().autosavetime;
         final int tid = InventoryPlugin.inst().getServer().getScheduler().scheduleSyncRepeatingTask(InventoryPlugin.inst(), new Runnable() {
+            @Override
             public void run() {
                 if (!CookieApi.isPlayerHashLoadet(p.getUniqueId())) {
                     p.sendMessage(I18n.translate("messages.unsuccessLoaded"));
@@ -247,6 +255,7 @@ public class CookieApi {
     public static void startPlayerHistoryScheduler(final Player p) {
         final long time = 6000L;
         final int tid = InventoryPlugin.inst().getServer().getScheduler().scheduleSyncRepeatingTask(InventoryPlugin.inst(), new Runnable() {
+            @Override
             public void run() {
                 if (CookieApi.isPlayerHashLoadet(p.getUniqueId())) {
                     addHistory(p);
@@ -269,6 +278,7 @@ public class CookieApi {
     public static void startUnlockGod(final Player p, World w) {
         final String world = w.getName();
         Bukkit.getScheduler().runTaskLaterAsynchronously(InventoryPlugin.inst(), new Runnable() {
+            @Override
             public void run() {
                 if (p.isOnline() && world.contains(p.getWorld().getName())) {
                     CookieApi.unsetHashGodlock(p.getUniqueId());
@@ -304,6 +314,35 @@ public class CookieApi {
             CookieApi.unsetHashGodlock(player.getUniqueId());
         }
 
+    }
+
+    public static boolean isArtificiallyItem(ItemStack item) {
+        if ((item != null) && (item.hasItemMeta())) {
+            ItemMeta meta = item.getItemMeta();
+            if (meta.hasLore()) {
+                for (String s : meta.getLore()) {
+                    if (s.startsWith("Artificially")) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public static ItemStack setArtificiallyItem(String player, ItemStack item) {
+        if ((item != null) && (item.getType() != Material.AIR) && (item.getType() != Material.BOOK_AND_QUILL) && (!isArtificiallyItem(item))) {
+            ItemMeta meta = item.getItemMeta();
+            List<String> lore = new ArrayList<String>();
+            if (meta.hasLore()) {
+                lore = meta.getLore();
+            }
+            lore.add(0, "Artificially");
+            lore.add(1, player);
+            meta.setLore(lore);
+            item.setItemMeta(meta);
+        }
+        return item;
     }
 
 }

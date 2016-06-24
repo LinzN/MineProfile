@@ -8,6 +8,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.inventory.InventoryCreativeEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -122,6 +123,12 @@ public class BukkitEvents extends SQLInject implements Listener {
         CookieApi.setHashGodlock(event.getPlayer().getUniqueId());
         CookieApi.startUnlockGod(p, p.getWorld());
 
+    }
+
+    @EventHandler
+    public void onCreativeClick(InventoryCreativeEvent event) {
+
+        event.setCursor(CookieApi.setArtificiallyItem(event.getWhoClicked().getName(), event.getCursor()));
     }
 
 }
