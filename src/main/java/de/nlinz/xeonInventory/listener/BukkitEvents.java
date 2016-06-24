@@ -10,6 +10,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryCreativeEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
@@ -18,6 +19,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 
 import de.nlinz.xeonInventory.core.CookieApi;
 import de.nlinz.xeonInventory.database.SQLInject;
@@ -129,6 +131,23 @@ public class BukkitEvents extends SQLInject implements Listener {
     public void onCreativeClick(InventoryCreativeEvent event) {
 
         event.setCursor(CookieApi.setArtificiallyItem(event.getWhoClicked().getName(), event.getCursor()));
+    }
+
+    @EventHandler
+    public void onCraft(PrepareItemCraftEvent event) {
+        if ((event.getViewers().isEmpty())) {
+            return;
+        }
+        ItemStack[] arrayOfItemStack;
+        int j = (arrayOfItemStack = event.getInventory().getMatrix()).length;
+        for (int i = 0; i < j; i++) {
+            ItemStack item = arrayOfItemStack[i];
+            if (CookieApi.isArtificiallyItem(item)) {
+
+                CookieApi.setArtificiallyItem(event.getViewers().get(0).getName(), event.getInventory().getItem(0));
+                break;
+            }
+        }
     }
 
 }
