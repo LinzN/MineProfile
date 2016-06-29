@@ -1,6 +1,8 @@
 package de.nlinz.xeonInventory.core;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -321,7 +323,7 @@ public class CookieApi {
             ItemMeta meta = item.getItemMeta();
             if (meta.hasLore()) {
                 for (String s : meta.getLore()) {
-                    if (s.startsWith("Artificially")) {
+                    if (s.startsWith("GameMode")) {
                         return true;
                     }
                 }
@@ -333,12 +335,13 @@ public class CookieApi {
     public static ItemStack setArtificiallyItem(String player, ItemStack item) {
         if ((item != null) && (item.getType() != Material.AIR) && (item.getType() != Material.BOOK_AND_QUILL) && (!isArtificiallyItem(item))) {
             ItemMeta meta = item.getItemMeta();
-            List<String> lore = new ArrayList<String>();
+            List<String> lore = new ArrayList<>();
             if (meta.hasLore()) {
                 lore = meta.getLore();
             }
-            lore.add(0, "Artificially");
+            lore.add(0, "GameMode");
             lore.add(1, player);
+            lore.add(2, new SimpleDateFormat("dd.MM.yyyy '-' HH:mm").format(new Date()));
             meta.setLore(lore);
             item.setItemMeta(meta);
         }
