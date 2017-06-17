@@ -1,5 +1,5 @@
 name: XeonInventory
-version: ${project.version}.b${build.number}
+version: ${project.version}
 description: SQL Inventory plugin for bungeecord
 author: Kekshaus
 main: de.linzn.xeonInventory.InventoryPlugin
