@@ -1,8 +1,8 @@
 name: XeonInventory
 version: ${project.version}.b${build.number}
-description: SQL Inventory plugin for networksync
+description: SQL Inventory plugin for bungeecord
 author: Kekshaus
-main: de.nlinz.xeonInventory.InventoryPlugin
+main: de.linzn.xeonInventory.InventoryPlugin
 commands:
    inv:
       description: Alle xeonInventory Commands
