@@ -1,9 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>de.linzn</groupId>
-	<artifactId>xeonInventory</artifactId>
-	<version>1.0.2</version>
 	<packaging>jar</packaging>
 	<name>XeonInventory</name>
 
@@ -24,19 +21,14 @@
 	</dependencies>
 
 	<build>
-		<sourceDirectory>${basedir}/src/main/java</sourceDirectory>
-		<defaultGoal>install</defaultGoal>
+		<finalName>${project.name}</finalName>
 		<resources>
 			<resource>
-				<targetPath>.</targetPath>
-				<filtering>true</filtering>
-				<directory>${basedir}/src/main/resources/</directory>
+				<directory>${project.basedir}/src/main/resources</directory>
 				<includes>
-					<include>plugin.yml</include>
-					<include>config.yml</include>
-					<include>locale_deDE.yml</include>
-					<include>locale_enEN.yml</include>
+					<include>**</include>
 				</includes>
+				<filtering>true</filtering>
 			</resource>
 		</resources>
 		<plugins>
@@ -47,6 +39,7 @@
 				<configuration>
 					<source>1.7</source>
 					<target>1.7</target>
+					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -60,16 +53,15 @@
 					<finalName>${project.name}</finalName>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.6</version>
-				<configuration>
-					<encoding>${project.build.sourceEncoding}</encoding>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
+	<artifactId>xeonInventory</artifactId>
+	<version>1.0.2-${build.number}</version>
+	<groupId>de.linzn</groupId>
+	<dependencyManagement>
+		<dependencies>
+		</dependencies>
+	</dependencyManagement>
 	<properties>
 		<build.number>SNAPSHOT</build.number>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
