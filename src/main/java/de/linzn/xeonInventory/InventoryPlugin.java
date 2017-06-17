@@ -1,5 +1,6 @@
 package de.linzn.xeonInventory;
 
+import org.bstats.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -64,6 +65,7 @@ public class InventoryPlugin extends JavaPlugin {
 			getCommand("weather").setExecutor(new CommandWeather());
 			getCommand("clear").setExecutor(new CommandClear());
 			getServer().getPluginManager().registerEvents(new BukkitEvents(), this);
+			new Metrics(this);
 		} else {
 			getLogger().warning("Disable plugin...");
 			setEnabled(false);
