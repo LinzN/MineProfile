@@ -1,6 +1,5 @@
 package de.linzn.xeonInventory;
 
-import org.bstats.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
