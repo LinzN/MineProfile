@@ -1,146 +1,139 @@
 package de.linzn.xeonInventory.config;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.regex.Pattern;
-
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
+import java.io.*;
+import java.util.HashMap;
+import java.util.regex.Pattern;
+
 public class I18n {
 
-	private static I18n INSTANCE;
-	private static final Pattern NODOUBLEMARK = Pattern.compile("''");
-	private static final String INDEPENDENT_NEW_LINE = System.getProperty("line.separator");
+    private static final Pattern NODOUBLEMARK = Pattern.compile("''");
+    private static final String INDEPENDENT_NEW_LINE = System.getProperty("line.separator");
+    private static I18n INSTANCE;
+    private File defaultLocaleFile;
+    private File customLocaleFile;
+    private YamlConfiguration defaultLocaleConfig;
+    private YamlConfiguration customLocaleConfig;
+    private HashMap<String, String> translationsDefault = new HashMap<>();
+    private HashMap<String, String> translationsCustom = new HashMap<>();
 
-	public static String translate(final String key, final Object... replace) {
-		if (INSTANCE == null) {
-			return "TranslationsNotLoaded";
-		}
+    public I18n(Plugin plugin, String locale) {
+        INSTANCE = this;
 
-		String translation = INSTANCE.translationsCustom.get(key);
-		if (translation == null) {
-			translation = INSTANCE.translationsDefault.get(key);
-		}
+        File localeFolder = new File(plugin.getDataFolder(), "locale");
 
-		if (translation == null) {
-			return "TranslationsNotLoaded";
-		}
+        if (!localeFolder.exists()) {
+            localeFolder.mkdir();
+        }
 
-		translation = NODOUBLEMARK.matcher(translation).replaceAll("'");
-		translation = translation.replace("\\n", INDEPENDENT_NEW_LINE);
-		translation = ChatColor.translateAlternateColorCodes('§', translation);
+        defaultLocaleFile = new File(localeFolder, "locale_enEN.yml");
+        customLocaleFile = new File(localeFolder, "locale_" + locale + ".yml");
 
-		return String.format(translation, replace);
-	}
+        if (!defaultLocaleFile.exists()) {
+            loadLocaleFile(plugin, "locale_enEN", defaultLocaleFile);
+        }
 
-	private File defaultLocaleFile;
-	private File customLocaleFile;
+        defaultLocaleConfig = YamlConfiguration.loadConfiguration(defaultLocaleFile);
 
-	private YamlConfiguration defaultLocaleConfig;
-	private YamlConfiguration customLocaleConfig;
+        if (!customLocaleFile.exists()) {
+            if (!loadLocaleFile(plugin, "locale_" + locale, customLocaleFile)) {
+                customLocaleConfig = defaultLocaleConfig;
+                plugin.getLogger().info("Custom locale not found (or not different to default) - using default ...");
+            } else {
+                customLocaleConfig = YamlConfiguration.loadConfiguration(customLocaleFile);
+            }
+        } else {
+            customLocaleConfig = YamlConfiguration.loadConfiguration(customLocaleFile);
+        }
 
-	private HashMap<String, String> translationsDefault = new HashMap<String, String>();
-	private HashMap<String, String> translationsCustom = new HashMap<String, String>();
+        translationsDefault = loadTranslations(defaultLocaleConfig);
+        translationsCustom = loadTranslations(customLocaleConfig);
+    }
 
-	public I18n(Plugin plugin, String locale) {
-		INSTANCE = this;
+    public static String translate(final String key, final Object... replace) {
+        if (INSTANCE == null) {
+            return "TranslationsNotLoaded";
+        }
 
-		File localeFolder = new File(plugin.getDataFolder(), "locale");
+        String translation = INSTANCE.translationsCustom.get(key);
+        if (translation == null) {
+            translation = INSTANCE.translationsDefault.get(key);
+        }
 
-		if (!localeFolder.exists()) {
-			localeFolder.mkdir();
-		}
+        if (translation == null) {
+            return "TranslationsNotLoaded";
+        }
 
-		defaultLocaleFile = new File(localeFolder, "locale_enEN.yml");
-		customLocaleFile = new File(localeFolder, "locale_" + locale + ".yml");
+        translation = NODOUBLEMARK.matcher(translation).replaceAll("'");
+        translation = translation.replace("\\n", INDEPENDENT_NEW_LINE);
+        translation = ChatColor.translateAlternateColorCodes('§', translation);
 
-		if (!defaultLocaleFile.exists()) {
-			loadLocaleFile(plugin, "locale_enEN", defaultLocaleFile);
-		}
+        return String.format(translation, replace);
+    }
 
-		defaultLocaleConfig = YamlConfiguration.loadConfiguration(defaultLocaleFile);
+    private static void copy(InputStream in, File file) {
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            OutputStream out = new FileOutputStream(file);
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+            out.close();
+            in.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-		if (!customLocaleFile.exists()) {
-			if (!loadLocaleFile(plugin, "locale_" + locale, customLocaleFile)) {
-				customLocaleConfig = defaultLocaleConfig;
-				plugin.getLogger().info("Custom locale not found (or not different to default) - using default ...");
-			} else {
-				customLocaleConfig = YamlConfiguration.loadConfiguration(customLocaleFile);
-			}
-		} else {
-			customLocaleConfig = YamlConfiguration.loadConfiguration(customLocaleFile);
-		}
+    private boolean loadLocaleFile(Plugin plugin, String locale, final File to) {
+        String resource = locale.endsWith(".yml") ? locale : locale + ".yml";
 
-		translationsDefault = loadTranslations(defaultLocaleConfig);
-		translationsCustom = loadTranslations(customLocaleConfig);
-	}
+        final InputStream resourceStream;
+        try {
+            resourceStream = plugin.getResource(resource);
+        } catch (Exception e) {
+            return false;
+        }
 
-	private boolean loadLocaleFile(Plugin plugin, String locale, final File to) {
-		String resource = locale.endsWith(".yml") ? locale : locale + ".yml";
+        if (!to.exists()) {
+            try {
+                to.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
 
-		final InputStream resourceStream;
-		try {
-			resourceStream = plugin.getResource(resource);
-		} catch (Exception e) {
-			return false;
-		}
+        if (resourceStream != null) {
+            copy(resourceStream, to);
+        } else {
+            return false;
+        }
+        return true;
+    }
 
-		if (!to.exists()) {
-			try {
-				to.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-				return false;
-			}
-		}
+    private HashMap<String, String> loadTranslations(YamlConfiguration localeConfig) {
+        HashMap<String, String> tmp = new HashMap<>();
 
-		if (resourceStream != null) {
-			copy(resourceStream, to);
-		} else {
-			return false;
-		}
-		return true;
-	}
+        if (localeConfig == null) {
+            return tmp;
+        }
 
-	private HashMap<String, String> loadTranslations(YamlConfiguration localeConfig) {
-		HashMap<String, String> tmp = new HashMap<String, String>();
+        for (String key : localeConfig.getKeys(true)) {
+            tmp.put(key, localeConfig.getString(key));
+        }
 
-		if (localeConfig == null) {
-			return tmp;
-		}
-
-		for (String key : localeConfig.getKeys(true)) {
-			tmp.put(key, localeConfig.getString(key));
-		}
-
-		return tmp;
-	}
-
-	private static void copy(InputStream in, File file) {
-		if (!file.exists()) {
-			try {
-				file.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		try {
-			OutputStream out = new FileOutputStream(file);
-			byte[] buf = new byte[1024];
-			int len;
-			while ((len = in.read(buf)) > 0) {
-				out.write(buf, 0, len);
-			}
-			out.close();
-			in.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+        return tmp;
+    }
 }
