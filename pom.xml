@@ -7,21 +7,14 @@
 	<repositories>
 		<repository>
 			<id>spigot-repo</id>
-			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+			<url>http://maven.elmakers.com/repository/</url>
 		</repository>
 	</repositories>
 	<dependencies>
-		<!--Spigot API-->
+		<!--Spigot server-->
 		<dependency>
 			<groupId>org.spigotmc</groupId>
-			<artifactId>spigot-api</artifactId>
-			<version>1.12-R0.1-SNAPSHOT</version>
-			<scope>provided</scope>
-		</dependency>
-		<!--Bukkit API-->
-		<dependency>
-			<groupId>org.bukkit</groupId>
-			<artifactId>bukkit</artifactId>
+			<artifactId>spigot</artifactId>
 			<version>1.12-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
