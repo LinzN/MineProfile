@@ -10,6 +10,8 @@
 			<url>http://maven.elmakers.com/repository/</url>
 		</repository>
 	</repositories>
+
+
 	<dependencies>
 		<!--Spigot server-->
 		<dependency>
@@ -17,6 +19,14 @@
 			<artifactId>spigot</artifactId>
 			<version>1.12-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.dynmap</groupId>
+			<artifactId>dynmap</artifactId>
+			<version>2.5</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/libs/dynmap-2.5.jar</systemPath>
 		</dependency>
 	</dependencies>
 
@@ -56,14 +66,13 @@
 		</plugins>
 	</build>
 	<artifactId>xeonInventory</artifactId>
-	<version>1.0.5-${build.number}</version>
+	<version>1.0.8</version>
 	<groupId>de.linzn</groupId>
 	<dependencyManagement>
 		<dependencies>
 		</dependencies>
 	</dependencyManagement>
 	<properties>
-		<build.number>SNAPSHOT</build.number>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 </project>

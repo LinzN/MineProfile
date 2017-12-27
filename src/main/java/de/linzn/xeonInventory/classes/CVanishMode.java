@@ -5,6 +5,7 @@ import de.linzn.xeonInventory.config.I18n;
 import de.linzn.xeonInventory.utils.HashDB;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.dynmap.bukkit.DynmapPlugin;
 
 import java.util.Iterator;
 import java.util.UUID;
@@ -23,7 +24,9 @@ public class CVanishMode {
                                 }
                             }
                         }
-
+                        if (Bukkit.getPluginManager().getPlugin("dynmap") != null) {
+                            DynmapPlugin.plugin.setPlayerVisiblity(player, false);
+                        }
                         HashDB.vanish.add(player.getUniqueId());
                         if (showInfo)
                             player.sendMessage(I18n.translate("messages.changeVanishmode", "AKTIVIERT"));
@@ -35,6 +38,9 @@ public class CVanishMode {
                             }
                         }
 
+                        if (Bukkit.getPluginManager().getPlugin("dynmap") != null) {
+                            DynmapPlugin.plugin.setPlayerVisiblity(player, true);
+                        }
                         HashDB.vanish.remove(player.getUniqueId());
                         if (showInfo)
                             player.sendMessage(I18n.translate("messages.changeVanishmode", "DEAKTIVIERT"));
