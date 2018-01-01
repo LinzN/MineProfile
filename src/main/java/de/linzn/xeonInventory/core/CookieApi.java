@@ -263,7 +263,7 @@ public class CookieApi {
             ItemMeta meta = item.getItemMeta();
             if (meta.hasLore()) {
                 for (String s : meta.getLore()) {
-                    if (s.startsWith("GameMode")) {
+                    if (s.startsWith("Artificially")) {
                         return true;
                     }
                 }
@@ -280,7 +280,7 @@ public class CookieApi {
             if (meta.hasLore()) {
                 lore = meta.getLore();
             }
-            lore.add(0, "GameMode");
+            lore.add(0, "Artificially");
             lore.add(1, player);
             lore.add(2, new SimpleDateFormat("dd.MM.yyyy '-' HH:mm").format(new Date()));
             meta.setLore(lore);
