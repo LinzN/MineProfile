@@ -2,7 +2,6 @@ package de.linzn.xeonInventory.command;
 
 import de.linzn.xeonInventory.classes.CGive;
 import de.linzn.xeonInventory.config.I18n;
-import de.linzn.xeonInventory.core.CookieApi;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -67,7 +66,6 @@ public class CommandGive implements CommandExecutor {
                         }
 
                         ItemStack stack = new ItemStack(material, amount, data);
-                        stack = CookieApi.setArtificiallyItem(player.getName(), stack);
                         new CGive(player, stack);
 
                     } else {
