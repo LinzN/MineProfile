@@ -1,3 +1,13 @@
+/*
+ * Copyright (C) 2018. MineGaming - All Rights Reserved
+ *  You may use, distribute and modify this code under the
+ * terms of the LGPLv3 license, which unfortunately won't be
+ * written for another century.
+ *
+ *  You should have received a copy of the LGPLv3 license with
+ *  this file. If not, please write to: niklas.linz@enigmar.de
+ */
+
 package de.linzn.mineProfile.command;
 
 import de.linzn.mineProfile.classes.CClear;
@@ -11,15 +21,6 @@ import org.bukkit.entity.Player;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
-/**
- * Copyright:
- * <ul>
- * <li>Autor: Kekshaus</li>
- * <li>2015</li>
- * <li>www.minegaming.de</li>
- * </ul>
- */
 
 public class CommandClear implements CommandExecutor {
 

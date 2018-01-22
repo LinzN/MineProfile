@@ -1,10 +1,16 @@
+/*
+ * Copyright (C) 2018. MineGaming - All Rights Reserved
+ *  You may use, distribute and modify this code under the
+ * terms of the LGPLv3 license, which unfortunately won't be
+ * written for another century.
+ *
+ *  You should have received a copy of the LGPLv3 license with
+ *  this file. If not, please write to: niklas.linz@enigmar.de
+ */
+
 package de.linzn.mineProfile.task;
 
 import de.linzn.mineProfile.MineProfilePlugin;
-import de.linzn.mineProfile.classes.CFlyMode;
-import de.linzn.mineProfile.classes.CGameMode;
-import de.linzn.mineProfile.classes.CVanishMode;
-import de.linzn.mineProfile.config.I18n;
 import de.linzn.mineProfile.core.CookieApi;
 import de.linzn.mineProfile.database.SQLInject;
 import org.bukkit.entity.Player;
@@ -24,7 +30,7 @@ public class InventoryLoad extends SQLInject {
                 CookieApi.log("Create: " + player.getName());
                 SQLInject.createInventory(player.getUniqueId());
                 CookieApi.removeHashLoginLock(player.getUniqueId());
-                CookieApi.sendInfo(player, "§aDein Spielerprofil wurde geladen.");
+                CookieApi.sendInfo(player, "§aDein Profil wurde erstellt.");
                 return;
             }
             CookieApi.log("Load: " + player.getName());
@@ -49,7 +55,7 @@ public class InventoryLoad extends SQLInject {
                 if (CookieApi.isPlayerHashLoaded(player.getUniqueId())) {
 
                     loaded = true;
-                    CookieApi.sendInfo(player, "§aDein Spielerprofil wurde geladen.");
+                    CookieApi.sendInfo(player, "§aDein Profil wurde geladen.");
 
                 }
                 loopNumber++;
@@ -57,7 +63,7 @@ public class InventoryLoad extends SQLInject {
             }
             if (isCommand) {
                 CookieApi.loadData(player);
-                CookieApi.sendInfo(player, "§aDein Spielerprofil wurde geladen.");
+                CookieApi.sendInfo(player, "§aDein Profil wurde nachgeladen.");
 
             }
 
