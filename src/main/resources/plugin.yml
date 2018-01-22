@@ -2,35 +2,35 @@ name: XeonInventory
 version: ${project.version}
 description: SQL Inventory plugin for bungeecord
 author: Kekshaus
-main: de.linzn.xeonInventory.InventoryPlugin
+main: de.linzn.mineProfile.MineProfilePlugin
 commands:
    inv:
-      description: Alle xeonInventory Commands
+      description: Alle mineProfile Commands
       usage: /<command>
       aliases: [cinv]
    fly:
-      description: Alle xeonInventory Commands
+      description: Alle mineProfile Commands
       usage: /<command>
       aliases: [cfly]
    gm:
-      description: Alle xeonInventory Commands
+      description: Alle mineProfile Commands
       usage: /<command>
       aliases: [gamemode, cgm]
    vanish:
-      description: Alle xeonInventory Commands
+      description: Alle mineProfile Commands
       usage: /<command>
       aliases: [cvanish, v]
    give:
-      description: Alle xeonInventory Commands
+      description: Alle mineProfile Commands
       usage: /<command>
    time:
-      description: Alle xeonInventory Commands
+      description: Alle mineProfile Commands
       usage: /<command>
    weather:
-      description: Alle xeonInventory Commands
+      description: Alle mineProfile Commands
       usage: /<command>
    clear:
-      description: Alle xeonInventory Commands
+      description: Alle mineProfile Commands
       usage: /<command>
 permissions:
     xeonInventory.team:

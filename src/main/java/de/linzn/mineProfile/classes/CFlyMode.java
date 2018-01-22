@@ -1,0 +1,44 @@
+package de.linzn.mineProfile.classes;
+
+import de.linzn.mineProfile.MineProfilePlugin;
+import de.linzn.mineProfile.config.I18n;
+import org.bukkit.entity.Player;
+
+public class CFlyMode {
+
+    public CFlyMode(final Player player, final int mode, final boolean showInfo) {
+        switch (MineProfilePlugin.inst().getServer().getScheduler().scheduleSyncDelayedTask(MineProfilePlugin.inst(),
+                () -> {
+                    if (mode == 0) {
+                        player.setAllowFlight(false);
+                        if (showInfo)
+                            player.sendMessage(I18n.translate("messages.changeFlymode", "DEAKTIVIERT"));
+                        return;
+                    }
+                    if (mode == 1) {
+                        player.setAllowFlight(true);
+                        if (showInfo)
+                            player.sendMessage(I18n.translate("messages.changeFlymode", "AKTIVIERT"));
+                        return;
+                    }
+                })) {
+        }
+    }
+
+    public static int getFlyMode(Player player) {
+        int mode;
+        if (player.getAllowFlight()) {
+            mode = 1;
+        } else {
+            mode = 0;
+        }
+        return mode;
+
+    }
+
+    public static boolean isInFlyMode(Player player) {
+        return player.getAllowFlight();
+
+    }
+
+}

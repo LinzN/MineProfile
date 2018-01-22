@@ -3,8 +3,6 @@ messages:
   noPermission: '§4Du hast dafür nicht die Berechtigung!'
   noCommand: '§cUnbekannter Befehl! Hilfeseite: §a/inv help'
   alreadyLoaded: '§aDeine Spielerdaten wurden bereits erfolgreich geladen!'
-  successLoaded: '§aDeine Spielerdaten wurden geladen!'
-  unsuccessLoaded: '§cFehler! Bitte versuche deine Daten mit §a/inv load §cmanuell zuladen!'
   notOnline: '§cSpieler ist nicht online!'
   changeTime: '§aZeit geändert zu: §e%s!'
   changeWeather: '§aWetter geändert zu: §e%s!'
