@@ -10,6 +10,7 @@
 
 package de.linzn.mineProfile.listener;
 
+import de.linzn.mineProfile.MineProfilePlugin;
 import de.linzn.mineProfile.core.CookieApi;
 import de.linzn.mineProfile.database.SQLInject;
 import org.bukkit.entity.Player;
@@ -30,12 +31,16 @@ public class BukkitEvents extends SQLInject implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(final PlayerJoinEvent event) {
-        CookieApi.onlogin(event.getPlayer());
+        if (!MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getPlayer().getWorld().getName())){
+            CookieApi.onlogin(event.getPlayer());
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerQuit(final PlayerQuitEvent event) {
-        CookieApi.onLeave(event.getPlayer());
+        if (!MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getPlayer().getWorld().getName())){
+            CookieApi.onLeave(event.getPlayer());
+        }
     }
 
     @EventHandler
@@ -119,14 +124,19 @@ public class BukkitEvents extends SQLInject implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void ChangeWorld(PlayerChangedWorldEvent event) {
         Player p = event.getPlayer();
-        CookieApi.setHashGodlock(event.getPlayer().getUniqueId());
-        CookieApi.startUnlockGod(p, p.getWorld());
+        if (MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getFrom().getName()) && !MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getPlayer().getWorld().getName())){
+            CookieApi.onlogin(p);
+        } else if (!MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getFrom().getName()) && MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getPlayer().getWorld().getName())) {
+            CookieApi.onLeave(p);
+        } else {
+            CookieApi.setHashGodlock(event.getPlayer().getUniqueId());
+            CookieApi.startUnlockGod(p, p.getWorld());
+        }
 
     }
 
     @EventHandler
     public void onCreativeClick(InventoryCreativeEvent event) {
-
         event.setCursor(CookieApi.setArtificiallyItem(event.getWhoClicked().getName(), event.getCursor()));
     }
 
@@ -140,7 +150,6 @@ public class BukkitEvents extends SQLInject implements Listener {
         for (int i = 0; i < j; i++) {
             ItemStack item = arrayOfItemStack[i];
             if (CookieApi.isArtificiallyItem(item)) {
-
                 CookieApi.setArtificiallyItem(event.getViewers().get(0).getName(), event.getInventory().getItem(0));
                 break;
             }

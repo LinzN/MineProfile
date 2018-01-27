@@ -13,6 +13,8 @@ package de.linzn.mineProfile.config;
 import de.linzn.mineProfile.MineProfilePlugin;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class CookieConfig {
@@ -24,6 +26,7 @@ public class CookieConfig {
     public int cleandata = 60;
     public double version = 1.0;
     public boolean loaded = false;
+    public List<String> disabledWorlds;
     private FileConfiguration config;
 
     public CookieConfig(final MineProfilePlugin plugin) {
@@ -85,6 +88,9 @@ public class CookieConfig {
         autosavetime = get("Plugin.autosavetime", 60);
         cleandata = get("Plugin.cleandata", 90);
         version = get("Config.version", 1.0);
+        ArrayList<String> wList = new ArrayList<>();
+        wList.add("testWorld");
+        disabledWorlds = get("disabledWorlds", wList);
 
     }
 }

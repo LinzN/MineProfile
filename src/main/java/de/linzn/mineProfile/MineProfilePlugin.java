@@ -70,7 +70,9 @@ public class MineProfilePlugin extends JavaPlugin {
             setEnabled(false);
         }
         for (Player p : Bukkit.getOnlinePlayers()) {
-            CookieApi.onlogin(p);
+            if (!this.getCookieConfig().disabledWorlds.contains(p.getWorld().getName())){
+                CookieApi.onlogin(p);
+            }
         }
 
     }

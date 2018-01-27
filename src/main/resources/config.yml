@@ -21,6 +21,9 @@ sql:
   password: password
   debugmode: false
 
+disabledWorlds:
+    - testwelt
+
 Config:
 # Do not touch!
   version: 1.0

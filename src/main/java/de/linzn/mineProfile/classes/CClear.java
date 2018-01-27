@@ -20,7 +20,7 @@ public class CClear {
         MineProfilePlugin.inst().getServer().getScheduler().scheduleSyncDelayedTask(MineProfilePlugin.inst(),
                 () -> {
                     player.getInventory().clear();
-                    player.sendMessage(I18n.translate("messages.preparePlayerData"));
+                    player.sendMessage(I18n.translate("messages.clearInventory"));
                 });
     }
 

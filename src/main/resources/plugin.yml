@@ -1,4 +1,4 @@
-name: XeonInventory
+name: MineProfile
 version: ${project.version}
 description: SQL Inventory plugin for bungeecord
 author: Kekshaus
