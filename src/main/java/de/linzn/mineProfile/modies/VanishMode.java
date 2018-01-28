@@ -8,7 +8,7 @@
  *  this file. If not, please write to: niklas.linz@enigmar.de
  */
 
-package de.linzn.mineProfile.classes;
+package de.linzn.mineProfile.modies;
 
 import de.linzn.mineProfile.MineProfilePlugin;
 import de.linzn.mineProfile.config.I18n;
@@ -20,9 +20,9 @@ import org.dynmap.bukkit.DynmapPlugin;
 import java.util.Iterator;
 import java.util.UUID;
 
-public class CVanishMode {
+public class VanishMode {
 
-    public CVanishMode(final Player player, final int mode, final boolean showInfo) {
+    public VanishMode(final Player player, final int mode, final boolean showInfo) {
         MineProfilePlugin.inst().getServer().getScheduler().scheduleSyncDelayedTask(MineProfilePlugin.inst(),
                 () -> {
                     if (mode == 1) {

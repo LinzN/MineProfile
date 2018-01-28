@@ -10,7 +10,7 @@
 
 package de.linzn.mineProfile.command;
 
-import de.linzn.mineProfile.classes.CGive;
+import de.linzn.mineProfile.modies.InvGive;
 import de.linzn.mineProfile.config.I18n;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 
 public class CommandGive implements CommandExecutor {
 
-    public ThreadPoolExecutor executorServiceCommands;
+    private ThreadPoolExecutor executorServiceCommands;
 
     public CommandGive() {
         executorServiceCommands = new ThreadPoolExecutor(1, 1, 250L, TimeUnit.MILLISECONDS,
@@ -39,7 +39,7 @@ public class CommandGive implements CommandExecutor {
             if (sender.hasPermission("mineProfile.team.give")) {
                 if (args.length < 1) {
                     sender.sendMessage(I18n.translate("messages.giveError"));
-                } else if (args.length >= 1) {
+                } else {
                     Player player = Bukkit.getPlayer(args[0]);
                     if (player == null) {
                         sender.sendMessage(I18n.translate("messages.notOnline"));
@@ -61,13 +61,13 @@ public class CommandGive implements CommandExecutor {
                             if (args.length >= 4) {
                                 try {
                                     data = Short.parseShort(args[3]);
-                                } catch (NumberFormatException ex) {
+                                } catch (NumberFormatException ignored) {
                                 }
                             }
                         }
 
                         ItemStack stack = new ItemStack(material, amount, data);
-                        new CGive(player, stack);
+                        new InvGive(player, stack);
 
                     } else {
                         sender.sendMessage(I18n.translate("messages.noItem"));

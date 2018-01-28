@@ -8,15 +8,15 @@
  *  this file. If not, please write to: niklas.linz@enigmar.de
  */
 
-package de.linzn.mineProfile.classes;
+package de.linzn.mineProfile.modies;
 
 import de.linzn.mineProfile.MineProfilePlugin;
 import de.linzn.mineProfile.config.I18n;
 import org.bukkit.entity.Player;
 
-public class CFlyMode {
+public class FlyMode {
 
-    public CFlyMode(final Player player, final int mode, final boolean showInfo) {
+    public FlyMode(final Player player, final int mode, final boolean showInfo) {
         switch (MineProfilePlugin.inst().getServer().getScheduler().scheduleSyncDelayedTask(MineProfilePlugin.inst(),
                 () -> {
                     if (mode == 0) {

@@ -10,7 +10,7 @@
 
 package de.linzn.mineProfile.command;
 
-import de.linzn.mineProfile.classes.CGameMode;
+import de.linzn.mineProfile.modies.InvGamemode;
 import de.linzn.mineProfile.config.I18n;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 
 public class CommandGameMode implements CommandExecutor {
 
-    public ThreadPoolExecutor executorServiceCommands;
+    private ThreadPoolExecutor executorServiceCommands;
 
     public CommandGameMode() {
         executorServiceCommands = new ThreadPoolExecutor(1, 1, 250L, TimeUnit.MILLISECONDS,
@@ -35,18 +35,18 @@ public class CommandGameMode implements CommandExecutor {
         executorServiceCommands.submit(() -> {
             if (args.length == 0) {
                 sender.sendMessage(I18n.translate("messages.gamemodeError"));
-            } else if (args.length > 0) {
+            } else {
                 if (args.length == 1) {
                     Player player = (Player) sender;
                     if (sender.hasPermission("mineProfile.team.gamemode")) {
                         if (args[0].equalsIgnoreCase("0") || args[0].equalsIgnoreCase("survival")) {
-                            new CGameMode(player, 0, true);
+                            new InvGamemode(player, 0, true);
                         } else if (args[0].equalsIgnoreCase("1") || args[0].equalsIgnoreCase("creative")) {
-                            new CGameMode(player, 1, true);
+                            new InvGamemode(player, 1, true);
                         } else if (args[0].equalsIgnoreCase("2") || args[0].equalsIgnoreCase("adventure")) {
-                            new CGameMode(player, 2, true);
+                            new InvGamemode(player, 2, true);
                         } else if (args[0].equalsIgnoreCase("3") || args[0].equalsIgnoreCase("spectator")) {
-                            new CGameMode(player, 3, true);
+                            new InvGamemode(player, 3, true);
                         } else {
                             sender.sendMessage(I18n.translate("messages.noGamemode"));
                         }
@@ -54,7 +54,7 @@ public class CommandGameMode implements CommandExecutor {
                     } else {
                         sender.sendMessage(I18n.translate("messages.noPermission"));
                     }
-                } else if (args.length > 1) {
+                } else {
                     Player player = Bukkit.getPlayer(args[0]);
                     if (player == null) {
                         sender.sendMessage(I18n.translate("messages.notOnline"));
@@ -62,16 +62,16 @@ public class CommandGameMode implements CommandExecutor {
                     }
                     if (sender.hasPermission("mineProfile.team.gamemodeOther")) {
                         if (args[1].equalsIgnoreCase("0") || args[1].equalsIgnoreCase("survival")) {
-                            new CGameMode(player, 0, true);
+                            new InvGamemode(player, 0, true);
                             sender.sendMessage("§aGameMode von " + args[0] + " zu Survival geändert!");
                         } else if (args[1].equalsIgnoreCase("1") || args[1].equalsIgnoreCase("creative")) {
-                            new CGameMode(player, 1, true);
+                            new InvGamemode(player, 1, true);
                             sender.sendMessage("§aGameMode von " + args[0] + " zu Creative geändert!");
                         } else if (args[1].equalsIgnoreCase("2") || args[1].equalsIgnoreCase("adventure")) {
-                            new CGameMode(player, 2, true);
+                            new InvGamemode(player, 2, true);
                             sender.sendMessage("§aGameMode von " + args[0] + " zu Adventure geändert!");
                         } else if (args[1].equalsIgnoreCase("3") || args[1].equalsIgnoreCase("spectator")) {
-                            new CGameMode(player, 3, true);
+                            new InvGamemode(player, 3, true);
                             sender.sendMessage("§aGameMode von " + args[0] + " zu Spectator geändert!");
                         } else {
                             sender.sendMessage(I18n.translate("messages.noGamemode"));

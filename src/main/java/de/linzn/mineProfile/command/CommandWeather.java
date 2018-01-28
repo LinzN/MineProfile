@@ -10,7 +10,7 @@
 
 package de.linzn.mineProfile.command;
 
-import de.linzn.mineProfile.classes.CWeather;
+import de.linzn.mineProfile.modies.ChangeWeather;
 import de.linzn.mineProfile.config.I18n;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 
 public class CommandWeather implements CommandExecutor {
 
-    public ThreadPoolExecutor executorServiceCommands;
+    private ThreadPoolExecutor executorServiceCommands;
 
     public CommandWeather() {
         executorServiceCommands = new ThreadPoolExecutor(1, 1, 250L, TimeUnit.MILLISECONDS,
@@ -36,9 +36,9 @@ public class CommandWeather implements CommandExecutor {
                 if (args.length == 0) {
                     sender.sendMessage(I18n.translate("messages.weatherError"));
                     sender.sendMessage(I18n.translate("messages.weatherAvailable"));
-                } else if (args.length >= 1) {
+                } else {
                     Player player = (Player) sender;
-                    new CWeather(player, args[0]);
+                    new ChangeWeather(player, args[0]);
                     sender.sendMessage(I18n.translate("messages.changeWeather", args[0]));
                 }
             } else {

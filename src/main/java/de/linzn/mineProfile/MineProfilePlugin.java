@@ -39,10 +39,12 @@ public class MineProfilePlugin extends JavaPlugin {
     public void onDisable() {
         this.getLogger().info("Saving all players...");
         for (Player p : Bukkit.getOnlinePlayers()) {
-            if (!CookieApi.isPlayerHashLoaded(p.getUniqueId())) {
-                CookieApi.removeHashLoginLock(p.getUniqueId());
-            } else {
-                CookieApi.saveData(p, true, false);
+            if (!this.getCookieConfig().disabledWorlds.contains(p.getWorld().getName())) {
+                if (!CookieApi.isPlayerHashLoaded(p.getUniqueId())) {
+                    CookieApi.removeHashLoginLock(p.getUniqueId());
+                } else {
+                    CookieApi.saveData(p, true, false);
+                }
             }
         }
         ConnectionManager.DEFAULT.shutdown();

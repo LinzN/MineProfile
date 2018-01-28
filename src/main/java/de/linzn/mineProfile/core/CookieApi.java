@@ -11,8 +11,8 @@
 package de.linzn.mineProfile.core;
 
 import de.linzn.mineProfile.MineProfilePlugin;
-import de.linzn.mineProfile.classes.CFlyMode;
-import de.linzn.mineProfile.classes.CVanishMode;
+import de.linzn.mineProfile.modies.FlyMode;
+import de.linzn.mineProfile.modies.VanishMode;
 import de.linzn.mineProfile.config.I18n;
 import de.linzn.mineProfile.database.SQLInject;
 import de.linzn.mineProfile.task.InventoryLoad;
@@ -142,8 +142,8 @@ public class CookieApi {
             player.setGameMode(data.getGameMode());
             player.setFireTicks(data.getFireticks());
             player.getInventory().setHeldItemSlot(data.getSlot());
-            new CFlyMode(player, data.getFlyInt(), false);
-            new CVanishMode(player, data.getVanishInt(), false);
+            new FlyMode(player, data.getFlyInt(), false);
+            new VanishMode(player, data.getVanishInt(), false);
         });
 
     }
@@ -174,8 +174,8 @@ public class CookieApi {
         data.setGamemode(player.getGameMode());
         data.setFireticks(player.getFireTicks());
         data.setSlot(player.getInventory().getHeldItemSlot());
-        data.setFlyInt(CFlyMode.getFlyMode(player));
-        data.setVanishInt(CVanishMode.getVanishMode(player));
+        data.setFlyInt(FlyMode.getFlyMode(player));
+        data.setVanishInt(VanishMode.getVanishMode(player));
         final InventoryData savedData = data;
         if (newTask) {
             MineProfilePlugin.inst().getServer().getScheduler().runTaskAsynchronously(MineProfilePlugin.inst(),
@@ -247,7 +247,7 @@ public class CookieApi {
             startPlayerSavingScheduler(player);
         }
         startPlayerHistoryScheduler(player);
-        CVanishMode.setVanishedHashMapForPlayer(player);
+        VanishMode.setVanishedHashMapForPlayer(player);
         startUnlockGod(player, player.getWorld());
     }
 

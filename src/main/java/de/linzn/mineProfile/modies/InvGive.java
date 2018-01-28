@@ -8,19 +8,22 @@
  *  this file. If not, please write to: niklas.linz@enigmar.de
  */
 
-package de.linzn.mineProfile.classes;
+package de.linzn.mineProfile.modies;
 
 import de.linzn.mineProfile.MineProfilePlugin;
 import de.linzn.mineProfile.config.I18n;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
-public class CClear {
 
-    public CClear(final Player player) {
+public class InvGive {
+
+    public InvGive(final Player player, final ItemStack value) {
         MineProfilePlugin.inst().getServer().getScheduler().scheduleSyncDelayedTask(MineProfilePlugin.inst(),
                 () -> {
-                    player.getInventory().clear();
-                    player.sendMessage(I18n.translate("messages.clearInventory"));
+                    player.getInventory().addItem(value);
+                    player.sendMessage(I18n.translate("messages.createItemstack", value.getType().name(),
+                            value.getData(), value.getAmount()));
                 });
     }
 

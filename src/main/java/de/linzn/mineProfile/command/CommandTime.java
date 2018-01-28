@@ -10,7 +10,7 @@
 
 package de.linzn.mineProfile.command;
 
-import de.linzn.mineProfile.classes.CTime;
+import de.linzn.mineProfile.modies.ChangeTime;
 import de.linzn.mineProfile.config.I18n;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 
 public class CommandTime implements CommandExecutor {
 
-    public ThreadPoolExecutor executorServiceCommands;
+    private ThreadPoolExecutor executorServiceCommands;
 
     public CommandTime() {
         executorServiceCommands = new ThreadPoolExecutor(1, 1, 250L, TimeUnit.MILLISECONDS,
@@ -36,9 +36,9 @@ public class CommandTime implements CommandExecutor {
                 if (args.length == 0) {
                     sender.sendMessage(I18n.translate("messages.timeError"));
                     sender.sendMessage(I18n.translate("messages.timeAvailable"));
-                } else if (args.length >= 1) {
+                } else {
                     Player player = (Player) sender;
-                    new CTime(player, args[0]);
+                    new ChangeTime(player, args[0]);
                     sender.sendMessage(I18n.translate("messages.changeTime", args[0]));
                 }
             } else {

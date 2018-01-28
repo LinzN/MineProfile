@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 
 public class CommandInv implements CommandExecutor {
 
-    public ThreadPoolExecutor executorServiceCommands;
+    private ThreadPoolExecutor executorServiceCommands;
 
     public CommandInv() {
         executorServiceCommands = new ThreadPoolExecutor(1, 1, 250L, TimeUnit.MILLISECONDS,
@@ -37,7 +37,7 @@ public class CommandInv implements CommandExecutor {
         executorServiceCommands.submit(() -> {
             if (args.length == 0) {
                 help(sender);
-            } else if (args.length > 0) {
+            } else {
                 if (args[0].equalsIgnoreCase("load")) {
                     load(sender, args);
                 } else if (args[0].equalsIgnoreCase("version")) {
@@ -51,7 +51,7 @@ public class CommandInv implements CommandExecutor {
         return true;
     }
 
-    public void load(final CommandSender sender, final String[] args) {
+    private void load(final CommandSender sender, final String[] args) {
         Player player = (Player) sender;
         if (sender.hasPermission("mineProfile.cmd.load")) {
             if (CookieApi.isPlayerHashLoaded(player.getUniqueId())) {
@@ -67,10 +67,9 @@ public class CommandInv implements CommandExecutor {
         return;
     }
 
-    public void version(final CommandSender sender, final String[] args) {
+    private void version(final CommandSender sender, final String[] args) {
         sender.sendMessage(ChatColor.GREEN + "mineProfile version: " + ChatColor.LIGHT_PURPLE
                 + MineProfilePlugin.inst().pdf.getVersion());
-        return;
     }
 
     private void help(CommandSender sender) {

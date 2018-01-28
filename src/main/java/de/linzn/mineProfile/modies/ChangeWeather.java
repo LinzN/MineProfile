@@ -8,39 +8,35 @@
  *  this file. If not, please write to: niklas.linz@enigmar.de
  */
 
-package de.linzn.mineProfile.classes;
+package de.linzn.mineProfile.modies;
 
 import de.linzn.mineProfile.MineProfilePlugin;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+public class ChangeWeather {
 
-public class CTime {
-
-    public CTime(final Player player, final String timeName) {
+    public ChangeWeather(final Player player, final String weatherName) {
 
         MineProfilePlugin.inst().getServer().getScheduler().scheduleSyncDelayedTask(MineProfilePlugin.inst(),
                 () -> {
-                    long time = 0;
-                    switch (timeName.toUpperCase()) {
-                        case "DAY":
-                            time = 4284;
+                    final World world = player.getWorld();
+                    switch (weatherName.toUpperCase()) {
+                        case "SUN":
+                            world.setThundering(false);
+                            world.setStorm(false);
                             break;
-                        case "NIGHT":
-                            time = 18000;
+                        case "RAIN":
+                            world.setStorm(true);
                             break;
-                        case "MORNING":
-                            time = 22550;
-                            break;
-                        case "EVENING":
-                            time = 11615;
+                        case "THUNDER":
+                            world.setThundering(true);
                             break;
                         default:
-                            time = 1000;
+                            world.setThundering(false);
+                            world.setStorm(false);
                             break;
                     }
-                    World world = player.getWorld();
-                    world.setTime(time);
                 });
     }
 

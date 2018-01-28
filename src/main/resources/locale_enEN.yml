@@ -1,9 +1,0 @@
-messages:
-  noPermission: '§4You do not have the permission to do this!'
-  noCommand: '§cUnknown command! Helping page: §a/inv help'
-  alreadyLoaded: '§aYour playerdata has already been loaded successfully!'
-  successLoaded: '§aYour playerdata has been loaded!'
-  unsuccessLoaded: '§cError! Please try to use §a/inv load §c to load your inventory manual!'
-interfaceHelp1:
-  title1: '§e§n§6-==============[§2§lxeonInventory§r§6]==============-'
-  title2: ' §aLoad your inventory after an error manual: §e/inv load'

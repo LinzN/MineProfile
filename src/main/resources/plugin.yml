@@ -33,47 +33,47 @@ commands:
       description: Alle mineProfile Commands
       usage: /<command>
 permissions:
-    xeonInventory.team:
+    mineProfile.team:
         description: Alle Permissions
         children:
-            xeonInventory.default: true
-            xeonInventory.team.fly: true
-            xeonInventory.team.gamemode: true
-            xeonInventory.team.gamemodeOther: true
-            xeonInventory.team.vanish: true
-            xeonInventory.team.give: true
-            xeonInventory.team.time: true
-            xeonInventory.team.weather: true
-            xeonInventory.team.clear: true
-    xeonInventory.default:
+            mineProfile.default: true
+            mineProfile.team.fly: true
+            mineProfile.team.gamemode: true
+            mineProfile.team.gamemodeOther: true
+            mineProfile.team.vanish: true
+            mineProfile.team.give: true
+            mineProfile.team.time: true
+            mineProfile.team.weather: true
+            mineProfile.team.clear: true
+    mineProfile.default:
         description: Alle Permissions
         children:
-            xeonInventory.cmd.help: true
-            xeonInventory.cmd.load: true
-    xeonInventory.cmd.help:
+            mineProfile.cmd.help: true
+            mineProfile.cmd.load: true
+    mineProfile.cmd.help:
         description: help
         default: op
-    xeonInventory.cmd.load:
+    mineProfile.cmd.load:
         description: load
         default: op
-    xeonInventory.team.fly:
+    mineProfile.team.fly:
         description: load
         default: op
-    xeonInventory.team.gamemode:
+    mineProfile.team.gamemode:
         description: load
         default: op
-    xeonInventory.team.gamemodeOther:
+    mineProfile.team.gamemodeOther:
         description: load
         default: op
-    xeonInventory.team.vanish:
+    mineProfile.team.vanish:
         description: load
         default: op
-    xeonInventory.team.weather:
+    mineProfile.team.weather:
         description: load
         default: op
-    xeonInventory.team.time:
+    mineProfile.team.time:
         description: load
         default: op
-    xeonInventory.team.clear:
+    mineProfile.team.clear:
         description: load
         default: op

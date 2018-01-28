@@ -13,6 +13,7 @@ package de.linzn.mineProfile.listener;
 import de.linzn.mineProfile.MineProfilePlugin;
 import de.linzn.mineProfile.core.CookieApi;
 import de.linzn.mineProfile.database.SQLInject;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -128,6 +129,7 @@ public class BukkitEvents extends SQLInject implements Listener {
             CookieApi.onlogin(p);
         } else if (!MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getFrom().getName()) && MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getPlayer().getWorld().getName())) {
             CookieApi.onLeave(p);
+            Bukkit.getScheduler().runTaskLater(MineProfilePlugin.inst(), () -> p.getInventory().clear(), 20L);
         } else {
             CookieApi.setHashGodlock(event.getPlayer().getUniqueId());
             CookieApi.startUnlockGod(p, p.getWorld());

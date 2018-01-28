@@ -10,7 +10,7 @@
 
 package de.linzn.mineProfile.command;
 
-import de.linzn.mineProfile.classes.CClear;
+import de.linzn.mineProfile.modies.InvClear;
 import de.linzn.mineProfile.config.I18n;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 
 public class CommandClear implements CommandExecutor {
 
-    public ThreadPoolExecutor executorServiceCommands;
+    private ThreadPoolExecutor executorServiceCommands;
 
     public CommandClear() {
         executorServiceCommands = new ThreadPoolExecutor(1, 1, 250L, TimeUnit.MILLISECONDS,
@@ -36,14 +36,14 @@ public class CommandClear implements CommandExecutor {
             if (sender.hasPermission("mineProfile.team.clear")) {
                 if (args.length == 0) {
                     Player player = (Player) sender;
-                    new CClear(player);
-                } else if (args.length >= 1) {
+                    new InvClear(player);
+                } else {
                     Player player = Bukkit.getPlayer(args[0]);
                     if (player == null) {
                         sender.sendMessage(I18n.translate("messages.notOnline"));
                         return;
                     }
-                    new CClear(player);
+                    new InvClear(player);
                 }
             } else {
                 sender.sendMessage(I18n.translate("messages.noPermission"));

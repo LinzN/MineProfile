@@ -10,7 +10,7 @@
 
 package de.linzn.mineProfile.command;
 
-import de.linzn.mineProfile.classes.CFlyMode;
+import de.linzn.mineProfile.modies.FlyMode;
 import de.linzn.mineProfile.config.I18n;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 
 public class CommandFly implements CommandExecutor {
 
-    public ThreadPoolExecutor executorServiceCommands;
+    private ThreadPoolExecutor executorServiceCommands;
 
     public CommandFly() {
         executorServiceCommands = new ThreadPoolExecutor(1, 1, 250L, TimeUnit.MILLISECONDS,
@@ -38,34 +38,34 @@ public class CommandFly implements CommandExecutor {
                     Player player = (Player) sender;
 
                     if (player.getAllowFlight()) {
-                        new CFlyMode(player, 0, true);
+                        new FlyMode(player, 0, true);
                         return;
                     }
                     if (!player.getAllowFlight()) {
-                        new CFlyMode(player, 1, true);
+                        new FlyMode(player, 1, true);
                         return;
                     }
                 } else if (args.length == 1) {
                     Player player = (Player) sender;
                     if (args[0].equalsIgnoreCase("on")) {
-                        new CFlyMode(player, 1, true);
+                        new FlyMode(player, 1, true);
                     } else if (args[0].equalsIgnoreCase("off")) {
-                        new CFlyMode(player, 0, true);
+                        new FlyMode(player, 0, true);
                     } else {
                         sender.sendMessage(I18n.translate("messages.flyError"));
                     }
 
-                } else if (args.length > 1) {
+                } else {
                     Player player = Bukkit.getPlayer(args[0]);
                     if (player == null) {
                         sender.sendMessage(I18n.translate("messages.notOnline"));
                         return;
                     }
                     if (args[1].equalsIgnoreCase("on")) {
-                        new CFlyMode(player, 1, true);
+                        new FlyMode(player, 1, true);
                         sender.sendMessage("§aFlyMode von " + args[0] + " zu aktiv geändert!");
                     } else if (args[1].equalsIgnoreCase("off")) {
-                        new CFlyMode(player, 0, true);
+                        new FlyMode(player, 0, true);
                         sender.sendMessage("§aFlyMode von " + args[0] + " zu inaktiv geändert!");
                     } else {
                         sender.sendMessage(I18n.translate("messages.flyError"));

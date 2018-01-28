@@ -1,5 +1,5 @@
 Plugin:
-# Language enEN and deDE.
+# Language deDE.
   locale: deDE
 # Show console load and save message.
   debug: false

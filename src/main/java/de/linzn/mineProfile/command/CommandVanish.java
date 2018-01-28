@@ -10,7 +10,7 @@
 
 package de.linzn.mineProfile.command;
 
-import de.linzn.mineProfile.classes.CVanishMode;
+import de.linzn.mineProfile.modies.VanishMode;
 import de.linzn.mineProfile.config.I18n;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 
 public class CommandVanish implements CommandExecutor {
 
-    public ThreadPoolExecutor executorServiceCommands;
+    private ThreadPoolExecutor executorServiceCommands;
 
     public CommandVanish() {
         executorServiceCommands = new ThreadPoolExecutor(1, 1, 250L, TimeUnit.MILLISECONDS,
@@ -35,18 +35,18 @@ public class CommandVanish implements CommandExecutor {
             if (sender.hasPermission("mineProfile.team.vanish")) {
                 if (args.length == 0) {
                     Player player = (Player) sender;
-                    if (CVanishMode.isInVanishMode(player)) {
-                        new CVanishMode(player, 0, true);
+                    if (VanishMode.isInVanishMode(player)) {
+                        new VanishMode(player, 0, true);
 
                     } else {
-                        new CVanishMode(player, 1, true);
+                        new VanishMode(player, 1, true);
                     }
-                } else if (args.length > 0) {
+                } else {
                     Player player = (Player) sender;
                     if (args[0].equalsIgnoreCase("on")) {
-                        new CVanishMode(player, 1, true);
+                        new VanishMode(player, 1, true);
                     } else if (args[0].equalsIgnoreCase("off")) {
-                        new CVanishMode(player, 0, true);
+                        new VanishMode(player, 0, true);
                     } else {
                         sender.sendMessage(I18n.translate("messages.vanishError"));
                     }
