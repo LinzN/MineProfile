@@ -62,11 +62,13 @@ public class SQLInject {
     }
 
     public static void saveInventory(InventoryData data, Boolean unlock) {
-        UUID uuid = data.getPlayerUUID();
+        UUID playerUUID = data.getPlayerUUID();
+
         String invData = data.getInventoryContentToString();
         String armorData = data.getArmorContentToString();
         String endData = data.getEnderchestToString();
         String potionData = data.getPotionEffectsToString();
+
         int level = data.getLevel();
         float exp = data.getExp();
         double maxHealth = data.getMaxHealth();
@@ -83,28 +85,33 @@ public class SQLInject {
         try {
 
             Connection conn = manager.getConnection("mineProfile");
+            PreparedStatement sql = conn.prepareStatement("UPDATE inventoryData SET lockState = ?, time = ?, inventoryData = ?, armorData = ?, enderData = ?, potionData = ?, level = ?, exp = ?, maxHealth = ?, health = ?, food = ?, gamemodeData = ?, fireticks = ?, slot = ?, fly = ?, vanish = ? WHERE uuid = ?;");
+            /* Set data */
             if (unlock) {
-                PreparedStatement sql = conn.prepareStatement("UPDATE inventoryData SET lockState = '" + 0
-                        + "', time = '" + now.getTime() + "', inventoryData = '" + invData + "', armorData = '"
-                        + armorData + "', enderData = '" + endData + "', potionData = '" + potionData + "', level = '"
-                        + level + "', exp = '" + exp + "', maxHealth = '" + maxHealth + "', health = '" + health
-                        + "', food = '" + hunger + "', gamemodeData = '" + gamemodeData + "', fireticks = '" + fireticks
-                        + "', slot = '" + slot + "', fly = '" + fly + "', vanish = '" + vanish + "' " + "WHERE uuid = '"
-                        + uuid.toString() + "';");
-                sql.executeUpdate();
-                sql.close();
-
+                sql.setInt(1, 0);
             } else {
-                PreparedStatement sql = conn.prepareStatement(
-                        "UPDATE inventoryData SET time = '" + now.getTime() + "', inventoryData = '" + invData
-                                + "', armorData = '" + armorData + "', enderData = '" + endData + "', potionData = '"
-                                + potionData + "', level = '" + level + "', exp = '" + exp + "', maxHealth = '"
-                                + maxHealth + "', health = '" + health + "', food = '" + hunger + "', gamemodeData = '"
-                                + gamemodeData + "', fireticks = '" + fireticks + "', slot = '" + slot + "', fly = '"
-                                + fly + "', vanish = '" + vanish + "' " + "WHERE uuid = '" + uuid.toString() + "';");
-                sql.executeUpdate();
-                sql.close();
+                sql.setInt(1, 1);
             }
+            sql.setLong(2, now.getTime());
+            sql.setString(3, invData);
+            sql.setString(4, armorData);
+            sql.setString(5, endData);
+            sql.setString(6, potionData);
+            sql.setInt(7, level);
+            sql.setFloat(8, exp);
+            sql.setDouble(9, maxHealth);
+            sql.setDouble(10, health);
+            sql.setInt(11, hunger);
+            sql.setString(12, gamemodeData);
+            sql.setInt(13, fireticks);
+            sql.setInt(14, slot);
+            sql.setInt(15, fly);
+            sql.setInt(16, vanish);
+            /* Where statement */
+            sql.setString(17, playerUUID.toString());
+            /* Execute query*/
+            sql.executeUpdate();
+            sql.close();
             conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -276,11 +283,13 @@ public class SQLInject {
             int vanish = data.getVanishInt();
 
             PreparedStatement sql1 = conn.prepareStatement(
-                    "INSERT INTO inventoryHistory (uuid, timeStamp, inventoryData, armorData, enderData, potionData, level, exp, maxHealth, health, food, gamemodeData, fireticks, slot, fly, vanish) VALUES ('"
-                            + uuid + "', '" + now.getTime() + "', '" + invData + "', '" + armorData + "', '" + endData
-                            + "', '" + potionData + "', '" + level + "', '" + exp + "', '" + maxHealth + "', '" + health
+                    "INSERT INTO inventoryHistory (uuid, timeStamp, inventoryData, armorData, enderData,  potionData, level, exp, maxHealth, health, food, gamemodeData, fireticks, slot, fly, vanish) VALUES ('"
+                            + uuid + "', '" + now.getTime() + "', ?, ?, ?, '" + potionData + "', '" + level + "', '" + exp + "', '" + maxHealth + "', '" + health
                             + "', '" + hunger + "', '" + gamemodeData + "', '" + fireticks + "', '" + slot + "', '"
                             + fly + "', '" + vanish + "');");
+            sql1.setString(1, invData);
+            sql1.setString(2, armorData);
+            sql1.setString(3, endData);
             sql1.executeUpdate();
             sql1.close();
 

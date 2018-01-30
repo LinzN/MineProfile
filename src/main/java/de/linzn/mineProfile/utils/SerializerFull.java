@@ -26,7 +26,7 @@ import java.util.Collection;
 public class SerializerFull {
 
     // Serialize ItemStack array
-    public static String itemStackArrayToBase64(ItemStack[] items) {
+    public static String itemStackArrayToBase64_old(ItemStack[] items) {
         try {
             final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             final BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(outputStream);
@@ -40,12 +40,12 @@ public class SerializerFull {
             return Base64Coder.encodeLines(outputStream.toByteArray());
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     // Deserialize ItemStack array
-    public static ItemStack[] itemStackArrayFromBase64(String data) {
+    public static ItemStack[] itemStackArrayFromBase64_old(String data) {
         try {
             final ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
             final BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);
@@ -58,8 +58,8 @@ public class SerializerFull {
             return items;
         } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     // Serialize Collection<PotionEffect>

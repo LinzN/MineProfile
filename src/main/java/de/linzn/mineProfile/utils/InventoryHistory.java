@@ -41,15 +41,15 @@ public class InventoryHistory {
     }
 
     public void setInventoryContentFromString(String data) {
-        this.inventory = SerializerFull.itemStackArrayFromBase64(data);
+        this.inventory = SerializerFull.itemStackArrayFromBase64_old(data);
     }
 
     public void setArmorContentFromString(String data) {
-        this.armor = SerializerFull.itemStackArrayFromBase64(data);
+        this.armor = SerializerFull.itemStackArrayFromBase64_old(data);
     }
 
     public void setEnderchestContentFromString(String data) {
-        this.enderchest = SerializerFull.itemStackArrayFromBase64(data);
+        this.enderchest = SerializerFull.itemStackArrayFromBase64_old(data);
     }
 
     public void setPotionEffectFromString(String data) {
@@ -77,7 +77,7 @@ public class InventoryHistory {
     }
 
     public String getInventoryContentToString() {
-        return SerializerFull.itemStackArrayToBase64(this.inventory);
+        return SerializerFull.itemStackArrayToBase64_old(this.inventory);
     }
 
     public ItemStack[] getArmorContent() {
@@ -89,7 +89,7 @@ public class InventoryHistory {
     }
 
     public String getArmorContentToString() {
-        return SerializerFull.itemStackArrayToBase64(this.armor);
+        return SerializerFull.itemStackArrayToBase64_old(this.armor);
     }
 
     public ItemStack[] getEnderchestContent() {
@@ -101,7 +101,7 @@ public class InventoryHistory {
     }
 
     public String getEnderchestToString() {
-        return SerializerFull.itemStackArrayToBase64(this.enderchest);
+        return SerializerFull.itemStackArrayToBase64_old(this.enderchest);
     }
 
     public Collection<PotionEffect> getPotionEffects() {
