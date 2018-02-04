@@ -13,6 +13,7 @@ package de.linzn.mineProfile.listener;
 import de.linzn.mineProfile.MineProfilePlugin;
 import de.linzn.mineProfile.core.CookieApi;
 import de.linzn.mineProfile.database.SQLInject;
+import de.linzn.mineProfile.utils.HashDB;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,18 +31,23 @@ import org.bukkit.inventory.ItemStack;
 
 public class BukkitEvents extends SQLInject implements Listener {
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerJoin(final PlayerJoinEvent event) {
         if (!MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getPlayer().getWorld().getName())){
-            CookieApi.onlogin(event.getPlayer());
+            if (!HashDB.cookieFix.contains(event.getPlayer().getUniqueId())) {
+                CookieApi.onlogin(event.getPlayer());
+            }
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerQuit(final PlayerQuitEvent event) {
         if (!MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getPlayer().getWorld().getName())){
-            CookieApi.onLeave(event.getPlayer());
+            if (HashDB.cookieFix.contains(event.getPlayer().getUniqueId())) {
+                CookieApi.onLeave(event.getPlayer());
+            }
         }
+        HashDB.cookieFix.remove(event.getPlayer().getUniqueId());
     }
 
     @EventHandler

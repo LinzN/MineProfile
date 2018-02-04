@@ -11,10 +11,10 @@
 package de.linzn.mineProfile.core;
 
 import de.linzn.mineProfile.MineProfilePlugin;
-import de.linzn.mineProfile.modies.FlyMode;
-import de.linzn.mineProfile.modies.VanishMode;
 import de.linzn.mineProfile.config.I18n;
 import de.linzn.mineProfile.database.SQLInject;
+import de.linzn.mineProfile.modies.FlyMode;
+import de.linzn.mineProfile.modies.VanishMode;
 import de.linzn.mineProfile.task.InventoryLoad;
 import de.linzn.mineProfile.task.InventorySave;
 import de.linzn.mineProfile.utils.HashDB;
@@ -240,6 +240,7 @@ public class CookieApi {
     }
 
     public static void onlogin(Player player) {
+        HashDB.cookieFix.add(player.getUniqueId());
         CookieApi.addHashLoginLock(player.getUniqueId());
         CookieApi.setHashGodlock(player.getUniqueId());
         new InventoryLoad(player, false);
@@ -252,6 +253,7 @@ public class CookieApi {
     }
 
     public static void onLeave(Player player) {
+        HashDB.cookieFix.remove(player.getUniqueId());
         if (!CookieApi.isPlayerHashLoaded(player.getUniqueId())) {
             CookieApi.removeHashLoginLock(player.getUniqueId());
         } else {
