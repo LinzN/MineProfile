@@ -11,7 +11,7 @@
 package de.linzn.mineProfile.task;
 
 import de.linzn.mineProfile.MineProfilePlugin;
-import de.linzn.mineProfile.core.CookieApi;
+import de.linzn.mineProfile.core.PlayerDataAPI;
 import de.linzn.mineProfile.database.SQLInject;
 import org.bukkit.entity.Player;
 
@@ -21,14 +21,15 @@ public class InventorySave extends SQLInject {
         save(player, logout);
     }
 
-    public void save(Player player, boolean logout) {
+    private void save(Player player, boolean logout) {
         if (MineProfilePlugin.inst().getCookieConfig().debug) {
             if (logout) {
-                CookieApi.log("Save: " + player.getName());
+                player.sendMessage("§aDein Profil wurde gespeichert!");
+                MineProfilePlugin.inst().getLogger().info("Save: " + player.getName());
             } else {
-                CookieApi.log("Autosaving: " + player.getName());
+                MineProfilePlugin.inst().getLogger().info("Autosaving: " + player.getName());
             }
         }
-        CookieApi.saveData(player, logout, true);
+        PlayerDataAPI.saveData(player, logout, true);
     }
 }

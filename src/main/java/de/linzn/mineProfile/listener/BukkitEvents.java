@@ -35,6 +35,7 @@ public class BukkitEvents extends SQLInject implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerJoin(final PlayerJoinEvent event) {
+        event.getPlayer().setFallDistance(0L);
         if (!MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getPlayer().getWorld().getName())){
             new VanishMode(event.getPlayer(), 1, false);
             PlayerDataAPI.loadProfile(event.getPlayer());

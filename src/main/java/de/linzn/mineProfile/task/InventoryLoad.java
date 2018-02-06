@@ -11,8 +11,9 @@
 package de.linzn.mineProfile.task;
 
 import de.linzn.mineProfile.MineProfilePlugin;
-import de.linzn.mineProfile.core.CookieApi;
+import de.linzn.mineProfile.core.PlayerDataAPI;
 import de.linzn.mineProfile.database.SQLInject;
+import de.linzn.mineProfile.utils.HashDB;
 import org.bukkit.entity.Player;
 
 public class InventoryLoad extends SQLInject {
@@ -21,57 +22,56 @@ public class InventoryLoad extends SQLInject {
         load(player, isCommand);
     }
 
-    public void load(final Player player, final boolean isCommand) {
+    private void load(final Player player, final boolean isCommand) {
         MineProfilePlugin.inst().getServer().getScheduler().runTaskAsynchronously(MineProfilePlugin.inst(), () -> {
             int loopNumber = 0;
             boolean loaded = false;
 
             if (!SQLInject.hasInventory(player.getUniqueId())) {
-                CookieApi.log("Create: " + player.getName());
+                MineProfilePlugin.inst().getLogger().info("Create: " + player.getName());
                 SQLInject.createInventory(player.getUniqueId());
-                CookieApi.removeHashLoginLock(player.getUniqueId());
-                CookieApi.sendInfo(player, "§aDein Profil wurde erstellt.");
+                HashDB.authLock.remove(player.getUniqueId());
+                player.sendMessage("§aDein Profil wurde erstellt.");
                 return;
             }
-            CookieApi.log("Load: " + player.getName());
-            //CookieApi.preparePlayerData(player);
+            MineProfilePlugin.inst().getLogger().info("Load: " + player.getName());
+            //PlayerDataAPI.preparePlayerData(player);
 
             while (loopNumber <= 10 && !loaded) {
                 try {
-                    Thread.sleep(loopNumber * 150);
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
-                if (CookieApi.debug()) {
-                    CookieApi.log("Load loop " + loopNumber + " for: " + player.getName());
+                if (PlayerDataAPI.debug()) {
+                    MineProfilePlugin.inst().getLogger().info("Load loop " + loopNumber + " for: " + player.getName());
                 }
 
                 if (!SQLInject.isInventoryLocked(player.getUniqueId())) {
-                    CookieApi.loadData(player);
-
+                    PlayerDataAPI.loadData(player);
                 }
 
-                if (CookieApi.isPlayerHashLoaded(player.getUniqueId())) {
+                if (!HashDB.authLock.contains(player.getUniqueId())) {
 
                     loaded = true;
-                    CookieApi.sendInfo(player, "§aDein Profil wurde geladen.");
+                    player.sendMessage("§aDein Profil wurde geladen.");
 
                 }
                 loopNumber++;
 
             }
             if (isCommand) {
-                CookieApi.loadData(player);
-                CookieApi.sendInfo(player, "§aDein Profil wurde nachgeladen.");
+                PlayerDataAPI.loadData(player);
+                player.sendMessage("§aDein Profil wurde nachgeladen.");
 
             }
 
-            if (!CookieApi.isPlayerHashLoaded(player.getUniqueId())) {
-                if (CookieApi.debug()) {
-                    CookieApi.errorlog("Failed to load data for: " + player.getName());
+            if (HashDB.authLock.contains(player.getUniqueId())) {
+                if (PlayerDataAPI.debug()) {
+                    MineProfilePlugin.inst().getLogger().severe("Failed to load data for: " + player.getName());
                 }
-                CookieApi.sendInfo(player, "§4Ladefehler bei deinem Profil. Versuche mit /inv load");
+                player.sendMessage("§4Ladefehler bei deinem Profil. Versuche mit /inv load");
             }
         });
     }

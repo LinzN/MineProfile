@@ -10,8 +10,9 @@
 
 package de.linzn.mineProfile.database;
 
-import de.linzn.mineProfile.utils.InventoryData;
-import de.linzn.mineProfile.utils.InventoryHistory;
+import de.linzn.mineProfile.MineProfilePlugin;
+import de.linzn.mineProfile.utils.MinePlayerProfile;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.sql.Connection;
@@ -23,8 +24,8 @@ import java.util.UUID;
 
 public class SQLInject {
 
-    public static InventoryData loadInventory(Player player) {
-        InventoryData data = null;
+    public static MinePlayerProfile loadInventory(Player player) {
+        MinePlayerProfile data = null;
         ConnectionManager manager = ConnectionManager.DEFAULT;
         try {
 
@@ -35,7 +36,7 @@ public class SQLInject {
                             + playerUUID + "';");
             ResultSet result = sql.executeQuery();
             if (result.next()) {
-                data = new InventoryData(player);
+                data = new MinePlayerProfile(player);
                 data.setInventoryContentFromString(result.getString(1));
                 data.setArmorContentFromString(result.getString(2));
                 data.setEnderchestContentFromString(result.getString(3));
@@ -61,7 +62,7 @@ public class SQLInject {
         return data;
     }
 
-    public static void saveInventory(InventoryData data, Boolean unlock) {
+    public static void saveInventory(MinePlayerProfile data, Boolean unlock) {
         UUID playerUUID = data.getPlayerUUID();
 
         String invData = data.getInventoryContentToString();
@@ -116,6 +117,7 @@ public class SQLInject {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        Bukkit.getScheduler().runTaskAsynchronously(MineProfilePlugin.inst(), () -> createHistory(data));
     }
 
     public static void lockInventory(UUID uuid) {
@@ -201,71 +203,14 @@ public class SQLInject {
         return true;
     }
 
-    public static InventoryHistory getHistoryByID(int id) {
-        InventoryHistory data = null;
+
+    private static void createHistory(MinePlayerProfile data) {
         ConnectionManager manager = ConnectionManager.DEFAULT;
         try {
             Connection conn = manager.getConnection("mineProfile");
-            PreparedStatement sql = conn.prepareStatement(
-                    "SELECT inventoryData, armorData, enderData, potionData, level, exp, maxHealth, health, food, gamemodeData, fireticks, slot, fly, vanish FROM inventoryHistory WHERE id = '"
-                            + id + "';");
-            ResultSet result = sql.executeQuery();
-            if (result.next()) {
-                data = new InventoryHistory();
-                data.setInventoryContentFromString(result.getString(1));
-                data.setArmorContentFromString(result.getString(2));
-                data.setEnderchestContentFromString(result.getString(3));
-                data.setPotionEffectFromString(result.getString(4));
-                data.setLevel(result.getInt(5));
-                data.setExp(result.getFloat(6));
-                data.setMaxHealth(result.getDouble(7));
-                data.setHealth(result.getDouble(8));
-                data.setFood(result.getInt(9));
-                data.setGamemodeFromString(result.getString(10));
-                data.setFireticks(result.getInt(11));
-                data.setSlot(result.getInt(12));
-                data.setFly(result.getBoolean(13));
-                data.setVanish(result.getBoolean(14));
-            }
-            result.close();
-            sql.close();
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
-        return data;
-    }
 
-    public static void createHistory(UUID playerUUID) {
-        ConnectionManager manager = ConnectionManager.DEFAULT;
-        try {
-            InventoryHistory data = null;
-            Connection conn = manager.getConnection("mineProfile");
-            PreparedStatement sql = conn.prepareStatement(
-                    "SELECT inventoryData, armorData, enderData, potionData, level, exp, maxHealth, health, food, gamemodeData, fireticks, slot, fly, vanish FROM inventoryData WHERE uuid = '"
-                            + playerUUID + "';");
-            ResultSet result = sql.executeQuery();
-            if (result.next()) {
-                data = new InventoryHistory();
-                data.setUUID(playerUUID);
-                data.setInventoryContentFromString(result.getString(1));
-                data.setArmorContentFromString(result.getString(2));
-                data.setEnderchestContentFromString(result.getString(3));
-                data.setPotionEffectFromString(result.getString(4));
-                data.setLevel(result.getInt(5));
-                data.setExp(result.getFloat(6));
-                data.setMaxHealth(result.getDouble(7));
-                data.setHealth(result.getDouble(8));
-                data.setFood(result.getInt(9));
-                data.setGamemodeFromString(result.getString(10));
-                data.setFireticks(result.getInt(11));
-                data.setSlot(result.getInt(12));
-                data.setFly(result.getBoolean(13));
-                data.setVanish(result.getBoolean(14));
-            }
-
-            UUID uuid = data.getUUID();
+            UUID uuid = data.getPlayerUUID();
             String invData = data.getInventoryContentToString();
             String armorData = data.getArmorContentToString();
             String endData = data.getEnderchestToString();

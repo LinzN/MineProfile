@@ -12,8 +12,8 @@ package de.linzn.mineProfile.command;
 
 import de.linzn.mineProfile.MineProfilePlugin;
 import de.linzn.mineProfile.config.I18n;
-import de.linzn.mineProfile.core.CookieApi;
 import de.linzn.mineProfile.task.InventoryLoad;
+import de.linzn.mineProfile.utils.HashDB;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -54,7 +54,7 @@ public class CommandInv implements CommandExecutor {
     private void load(final CommandSender sender, final String[] args) {
         Player player = (Player) sender;
         if (sender.hasPermission("mineProfile.cmd.load")) {
-            if (CookieApi.isPlayerHashLoaded(player.getUniqueId())) {
+            if (!HashDB.authLock.contains(player.getUniqueId())) {
                 sender.sendMessage(I18n.translate("messages.alreadyLoaded"));
                 return;
 

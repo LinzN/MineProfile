@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.UUID;
 
 
-public class InventoryData {
+public class MinePlayerProfile {
     private String playerName;
     private UUID playerUUID;
     private ItemStack[] inventory;
@@ -37,7 +37,7 @@ public class InventoryData {
     private boolean fly;
     private boolean vanish;
 
-    public InventoryData(Player player) {
+    public MinePlayerProfile(Player player) {
         this.playerName = player.getName();
         this.playerUUID = player.getUniqueId();
     }
