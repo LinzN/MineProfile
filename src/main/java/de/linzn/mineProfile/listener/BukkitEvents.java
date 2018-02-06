@@ -11,8 +11,10 @@
 package de.linzn.mineProfile.listener;
 
 import de.linzn.mineProfile.MineProfilePlugin;
-import de.linzn.mineProfile.core.CookieApi;
+import de.linzn.mineProfile.core.PlayerDataAPI;
+import de.linzn.mineProfile.core.UtilsAPI;
 import de.linzn.mineProfile.database.SQLInject;
+import de.linzn.mineProfile.modies.VanishMode;
 import de.linzn.mineProfile.utils.HashDB;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -34,85 +36,77 @@ public class BukkitEvents extends SQLInject implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerJoin(final PlayerJoinEvent event) {
         if (!MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getPlayer().getWorld().getName())){
-            if (!HashDB.cookieFix.contains(event.getPlayer().getUniqueId())) {
-                CookieApi.onlogin(event.getPlayer());
-            }
+            new VanishMode(event.getPlayer(), 1, false);
+            PlayerDataAPI.loadProfile(event.getPlayer());
         }
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerQuit(final PlayerQuitEvent event) {
         if (!MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getPlayer().getWorld().getName())){
-            if (HashDB.cookieFix.contains(event.getPlayer().getUniqueId())) {
-                CookieApi.onLeave(event.getPlayer());
-            }
+            PlayerDataAPI.unloadProfile(event.getPlayer());
         }
-        HashDB.cookieFix.remove(event.getPlayer().getUniqueId());
     }
 
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent event) {
-        if (!CookieApi.isPlayerHashLoaded(event.getDamager().getUniqueId())
-                || CookieApi.isHashGodlock(event.getDamager().getUniqueId())) {
+        if (HashDB.authLock.contains(event.getDamager().getUniqueId())) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onDrop(PlayerDropItemEvent event) {
-        if (!CookieApi.isPlayerHashLoaded(event.getPlayer().getUniqueId())) {
+        if (HashDB.authLock.contains(event.getPlayer().getUniqueId())) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onChange(InventoryInteractEvent event) {
-        if (!CookieApi.isPlayerHashLoaded(event.getWhoClicked().getUniqueId())) {
+        if (HashDB.authLock.contains(event.getWhoClicked().getUniqueId())) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onPickup(PlayerPickupItemEvent event) {
-        if (!CookieApi.isPlayerHashLoaded(event.getPlayer().getUniqueId())) {
+        if (HashDB.authLock.contains(event.getPlayer().getUniqueId())) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
-        if (!CookieApi.isPlayerHashLoaded(event.getPlayer().getUniqueId())
-                || CookieApi.isHashGodlock(event.getPlayer().getUniqueId())) {
+        if (HashDB.authLock.contains(event.getPlayer().getUniqueId())) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
-        if (!CookieApi.isPlayerHashLoaded(event.getPlayer().getUniqueId())) {
+        if (HashDB.authLock.contains(event.getPlayer().getUniqueId())) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onPlace(BlockPlaceEvent event) {
-        if (!CookieApi.isPlayerHashLoaded(event.getPlayer().getUniqueId())) {
+        if (HashDB.authLock.contains(event.getPlayer().getUniqueId())) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onInteractAt(PlayerInteractAtEntityEvent event) {
-        if (!CookieApi.isPlayerHashLoaded(event.getPlayer().getUniqueId())
-                || CookieApi.isHashGodlock(event.getPlayer().getUniqueId())) {
+        if (HashDB.authLock.contains(event.getPlayer().getUniqueId())) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onInteractOther(PlayerInteractEntityEvent event) {
-        if (!CookieApi.isPlayerHashLoaded(event.getPlayer().getUniqueId())
-                || CookieApi.isHashGodlock(event.getPlayer().getUniqueId())) {
+        if (HashDB.authLock.contains(event.getPlayer().getUniqueId())) {
             event.setCancelled(true);
         }
     }
@@ -120,8 +114,7 @@ public class BukkitEvents extends SQLInject implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onAllDamage(EntityDamageEvent event) {
         if (event.getEntity() instanceof Player) {
-            if (!CookieApi.isPlayerHashLoaded(event.getEntity().getUniqueId())
-                    || CookieApi.isHashGodlock(event.getEntity().getUniqueId())) {
+            if (HashDB.authLock.contains(event.getEntity().getUniqueId())) {
                 event.setCancelled(true);
             }
 
@@ -132,20 +125,17 @@ public class BukkitEvents extends SQLInject implements Listener {
     public void ChangeWorld(PlayerChangedWorldEvent event) {
         Player p = event.getPlayer();
         if (MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getFrom().getName()) && !MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getPlayer().getWorld().getName())){
-            CookieApi.onlogin(p);
+            PlayerDataAPI.loadProfile(p);
         } else if (!MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getFrom().getName()) && MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getPlayer().getWorld().getName())) {
-            CookieApi.onLeave(p);
+            PlayerDataAPI.unloadProfile(p);
             Bukkit.getScheduler().runTaskLater(MineProfilePlugin.inst(), () -> p.getInventory().clear(), 20L);
-        } else {
-            CookieApi.setHashGodlock(event.getPlayer().getUniqueId());
-            CookieApi.startUnlockGod(p, p.getWorld());
         }
 
     }
 
     @EventHandler
     public void onCreativeClick(InventoryCreativeEvent event) {
-        event.setCursor(CookieApi.setArtificiallyItem(event.getWhoClicked().getName(), event.getCursor()));
+        event.setCursor(UtilsAPI.setArtificiallyItem(event.getWhoClicked().getName(), event.getCursor()));
     }
 
     @EventHandler
@@ -157,8 +147,8 @@ public class BukkitEvents extends SQLInject implements Listener {
         int j = (arrayOfItemStack = event.getInventory().getMatrix()).length;
         for (int i = 0; i < j; i++) {
             ItemStack item = arrayOfItemStack[i];
-            if (CookieApi.isArtificiallyItem(item)) {
-                CookieApi.setArtificiallyItem(event.getViewers().get(0).getName(), event.getInventory().getItem(0));
+            if (UtilsAPI.isArtificiallyItem(item)) {
+                UtilsAPI.setArtificiallyItem(event.getViewers().get(0).getName(), event.getInventory().getItem(0));
                 break;
             }
         }

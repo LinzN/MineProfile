@@ -12,11 +12,12 @@ package de.linzn.mineProfile;
 
 import de.linzn.mineProfile.command.*;
 import de.linzn.mineProfile.config.CookieConfig;
-import de.linzn.mineProfile.core.CookieApi;
+import de.linzn.mineProfile.core.PlayerDataAPI;
 import de.linzn.mineProfile.database.ConnectionManager;
 import de.linzn.mineProfile.database.DatabaseSetup;
 import de.linzn.mineProfile.listener.BukkitEvents;
 import de.linzn.mineProfile.task.SetupLanguageTask;
+import de.linzn.mineProfile.utils.HashDB;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -40,10 +41,10 @@ public class MineProfilePlugin extends JavaPlugin {
         this.getLogger().info("Saving all players...");
         for (Player p : Bukkit.getOnlinePlayers()) {
             if (!this.getCookieConfig().disabledWorlds.contains(p.getWorld().getName())) {
-                if (!CookieApi.isPlayerHashLoaded(p.getUniqueId())) {
-                    CookieApi.removeHashLoginLock(p.getUniqueId());
+                if (HashDB.authLock.contains(p.getUniqueId())) {
+                    HashDB.authLock.remove(p.getUniqueId());
                 } else {
-                    CookieApi.saveData(p, true, false);
+                    PlayerDataAPI.saveData(p, true, false);
                 }
             }
         }
@@ -73,7 +74,7 @@ public class MineProfilePlugin extends JavaPlugin {
         }
         for (Player p : Bukkit.getOnlinePlayers()) {
             if (!this.getCookieConfig().disabledWorlds.contains(p.getWorld().getName())){
-                CookieApi.onlogin(p);
+                PlayerDataAPI.loadProfile(p);
             }
         }
 
