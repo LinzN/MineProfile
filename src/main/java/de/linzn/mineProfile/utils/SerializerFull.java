@@ -25,8 +25,8 @@ import java.util.Collection;
 
 public class SerializerFull {
 
-    // Serialize ItemStack array
-    public static String itemStackArrayToBase64_old(ItemStack[] items) {
+
+    public static String itemStackArrayToBase64(ItemStack[] items) {
         try {
             final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             final BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(outputStream);
@@ -44,8 +44,8 @@ public class SerializerFull {
         }
     }
 
-    // Deserialize ItemStack array
-    public static ItemStack[] itemStackArrayFromBase64_old(String data) {
+
+    public static ItemStack[] itemStackArrayFromBase64(String data) {
         try {
             final ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
             final BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);
@@ -62,19 +62,17 @@ public class SerializerFull {
         }
     }
 
-    // Serialize Collection<PotionEffect>
+
     public static String potionEffectsToString(Collection<PotionEffect> effects) {
         if (effects.size() == 0)
             return "";
 
         final StringBuilder builder = new StringBuilder("");
         for (PotionEffect effect : effects)
-            builder.append(effect.getType().getName() + ':' + effect.getDuration() + ':' + effect.getAmplifier() + ':'
-                    + effect.isAmbient() + ';');
+            builder.append(effect.getType().getName()).append(':').append(effect.getDuration()).append(':').append(effect.getAmplifier()).append(':').append(effect.isAmbient()).append(';');
         return builder.toString();
     }
 
-    // Deserialize Collection<PotionEffect>
     public static Collection<PotionEffect> potionEffectsFromString(String serialized) {
         if (serialized.equals(""))
             return new ArrayList<>();
@@ -87,7 +85,7 @@ public class SerializerFull {
                 effects.add(new PotionEffect(PotionEffectType.getByName(potionData[0]), // Type
                         Integer.parseInt(potionData[1]), // Duration
                         Integer.parseInt(potionData[2]), // Amplifier
-                        potionData.length == 4 ? Boolean.parseBoolean(potionData[3]) : false // Ambient
+                        potionData.length == 4 && Boolean.parseBoolean(potionData[3]) // Ambient
                 ));
             }
         }

@@ -11,7 +11,7 @@
 package de.linzn.mineProfile.command;
 
 import de.linzn.mineProfile.modies.InvClear;
-import de.linzn.mineProfile.config.I18n;
+import de.linzn.mineProfile.utils.LanguageDB;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -40,13 +40,13 @@ public class CommandClear implements CommandExecutor {
                 } else {
                     Player player = Bukkit.getPlayer(args[0]);
                     if (player == null) {
-                        sender.sendMessage(I18n.translate("messages.notOnline"));
+                        sender.sendMessage(LanguageDB.notOnline);
                         return;
                     }
                     new InvClear(player);
                 }
             } else {
-                sender.sendMessage(I18n.translate("messages.noPermission"));
+                sender.sendMessage(LanguageDB.noPermission);
             }
         });
         return true;

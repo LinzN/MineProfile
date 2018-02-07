@@ -17,7 +17,7 @@ import java.util.UUID;
 
 public class HashDB {
     public static HashSet<UUID> authLock = new HashSet<>();
-    public static HashSet<UUID> vanish = new HashSet<>();
-    public static Map<UUID, Integer> taskID = new HashMap<>();
-
+    public static HashSet<UUID> functionState = new HashSet<>();
+    public static HashSet<UUID> vanishedUUID = new HashSet<>();
+    public static Map<UUID, Integer> bukkitTaskId = new HashMap<>();
 }

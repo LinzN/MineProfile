@@ -11,9 +11,9 @@
 package de.linzn.mineProfile.command;
 
 import de.linzn.mineProfile.MineProfilePlugin;
-import de.linzn.mineProfile.config.I18n;
 import de.linzn.mineProfile.task.InventoryLoad;
 import de.linzn.mineProfile.utils.HashDB;
+import de.linzn.mineProfile.utils.LanguageDB;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -55,29 +55,28 @@ public class CommandInv implements CommandExecutor {
         Player player = (Player) sender;
         if (sender.hasPermission("mineProfile.cmd.load")) {
             if (!HashDB.authLock.contains(player.getUniqueId())) {
-                sender.sendMessage(I18n.translate("messages.alreadyLoaded"));
+                sender.sendMessage(LanguageDB.alreadyLoaded);
                 return;
 
             }
             new InventoryLoad(player, true);
 
         } else {
-            sender.sendMessage(I18n.translate("messages.noPermission"));
+            sender.sendMessage(LanguageDB.noPermission);
         }
-        return;
     }
 
     private void version(final CommandSender sender, final String[] args) {
-        sender.sendMessage(ChatColor.GREEN + "mineProfile version: " + ChatColor.LIGHT_PURPLE
+        sender.sendMessage(ChatColor.GREEN + "MineProfile version: " + ChatColor.LIGHT_PURPLE
                 + MineProfilePlugin.inst().pdf.getVersion());
     }
 
     private void help(CommandSender sender) {
         if (sender.hasPermission("mineProfile.cmd.help")) {
-            sender.sendMessage(I18n.translate("interfaceHelp1.title1"));
-            sender.sendMessage(I18n.translate("interfaceHelp1.title2"));
+            sender.sendMessage(LanguageDB.title1);
+            sender.sendMessage(LanguageDB.title2);
         } else {
-            sender.sendMessage(I18n.translate("messages.noPermission"));
+            sender.sendMessage(LanguageDB.noPermission);
         }
     }
 

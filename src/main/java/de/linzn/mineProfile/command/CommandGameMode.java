@@ -11,7 +11,7 @@
 package de.linzn.mineProfile.command;
 
 import de.linzn.mineProfile.modies.InvGamemode;
-import de.linzn.mineProfile.config.I18n;
+import de.linzn.mineProfile.utils.LanguageDB;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -34,7 +34,7 @@ public class CommandGameMode implements CommandExecutor {
     public boolean onCommand(final CommandSender sender, Command cmd, String label, final String[] args) {
         executorServiceCommands.submit(() -> {
             if (args.length == 0) {
-                sender.sendMessage(I18n.translate("messages.gamemodeError"));
+                sender.sendMessage(LanguageDB.gamemodeError);
             } else {
                 if (args.length == 1) {
                     Player player = (Player) sender;
@@ -48,16 +48,16 @@ public class CommandGameMode implements CommandExecutor {
                         } else if (args[0].equalsIgnoreCase("3") || args[0].equalsIgnoreCase("spectator")) {
                             new InvGamemode(player, 3, true);
                         } else {
-                            sender.sendMessage(I18n.translate("messages.noGamemode"));
+                            sender.sendMessage(LanguageDB.noGamemode);
                         }
 
                     } else {
-                        sender.sendMessage(I18n.translate("messages.noPermission"));
+                        sender.sendMessage(LanguageDB.noPermission);
                     }
                 } else {
                     Player player = Bukkit.getPlayer(args[0]);
                     if (player == null) {
-                        sender.sendMessage(I18n.translate("messages.notOnline"));
+                        sender.sendMessage(LanguageDB.notOnline);
                         return;
                     }
                     if (sender.hasPermission("mineProfile.team.gamemodeOther")) {
@@ -74,11 +74,11 @@ public class CommandGameMode implements CommandExecutor {
                             new InvGamemode(player, 3, true);
                             sender.sendMessage("§aGameMode von " + args[0] + " zu Spectator geändert!");
                         } else {
-                            sender.sendMessage(I18n.translate("messages.noGamemode"));
+                            sender.sendMessage(LanguageDB.noGamemode);
                         }
 
                     } else {
-                        sender.sendMessage(I18n.translate("messages.noPermission"));
+                        sender.sendMessage(LanguageDB.noPermission);
                     }
                 }
             }

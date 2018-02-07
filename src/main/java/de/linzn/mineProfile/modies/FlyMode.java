@@ -11,28 +11,26 @@
 package de.linzn.mineProfile.modies;
 
 import de.linzn.mineProfile.MineProfilePlugin;
-import de.linzn.mineProfile.config.I18n;
+import de.linzn.mineProfile.utils.LanguageDB;
 import org.bukkit.entity.Player;
 
 public class FlyMode {
 
     public FlyMode(final Player player, final int mode, final boolean showInfo) {
-        switch (MineProfilePlugin.inst().getServer().getScheduler().scheduleSyncDelayedTask(MineProfilePlugin.inst(),
+        MineProfilePlugin.inst().getServer().getScheduler().scheduleSyncDelayedTask(MineProfilePlugin.inst(),
                 () -> {
                     if (mode == 0) {
                         player.setAllowFlight(false);
                         if (showInfo)
-                            player.sendMessage(I18n.translate("messages.changeFlymode", "DEAKTIVIERT"));
+                            player.sendMessage(LanguageDB.changeFlymode.replace("%s", "Deaktiviert"));
                         return;
                     }
                     if (mode == 1) {
                         player.setAllowFlight(true);
                         if (showInfo)
-                            player.sendMessage(I18n.translate("messages.changeFlymode", "AKTIVIERT"));
-                        return;
+                            player.sendMessage(LanguageDB.changeFlymode.replace("%s", "Aktiviert"));
                     }
-                })) {
-        }
+                });
     }
 
     public static int getFlyMode(Player player) {

@@ -11,7 +11,7 @@
 package de.linzn.mineProfile.command;
 
 import de.linzn.mineProfile.modies.VanishMode;
-import de.linzn.mineProfile.config.I18n;
+import de.linzn.mineProfile.utils.LanguageDB;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -32,7 +32,7 @@ public class CommandVanish implements CommandExecutor {
 
     public boolean onCommand(final CommandSender sender, Command cmd, String label, final String[] args) {
         executorServiceCommands.submit(() -> {
-            if (sender.hasPermission("mineProfile.team.vanish")) {
+            if (sender.hasPermission("mineProfile.team.vanishedUUID")) {
                 if (args.length == 0) {
                     Player player = (Player) sender;
                     if (VanishMode.isInVanishMode(player)) {
@@ -48,12 +48,12 @@ public class CommandVanish implements CommandExecutor {
                     } else if (args[0].equalsIgnoreCase("off")) {
                         new VanishMode(player, 0, true);
                     } else {
-                        sender.sendMessage(I18n.translate("messages.vanishError"));
+                        sender.sendMessage(LanguageDB.vanishError);
                     }
 
                 }
             } else {
-                sender.sendMessage(I18n.translate("messages.noPermission"));
+                sender.sendMessage(LanguageDB.noPermission);
             }
         });
         return true;

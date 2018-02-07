@@ -11,7 +11,7 @@
 package de.linzn.mineProfile.modies;
 
 import de.linzn.mineProfile.MineProfilePlugin;
-import de.linzn.mineProfile.config.I18n;
+import de.linzn.mineProfile.utils.LanguageDB;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -22,8 +22,8 @@ public class InvGive {
         MineProfilePlugin.inst().getServer().getScheduler().scheduleSyncDelayedTask(MineProfilePlugin.inst(),
                 () -> {
                     player.getInventory().addItem(value);
-                    player.sendMessage(I18n.translate("messages.createItemstack", value.getType().name(),
-                            value.getData(), value.getAmount()));
+                    player.sendMessage(LanguageDB.createItemstack.replace("%s1", value.getType().name()).replace("%s2", "" +
+                            value.getData()).replace("%s3", "" + value.getAmount()));
                 });
     }
 

@@ -11,7 +11,7 @@
 package de.linzn.mineProfile.command;
 
 import de.linzn.mineProfile.modies.FlyMode;
-import de.linzn.mineProfile.config.I18n;
+import de.linzn.mineProfile.utils.LanguageDB;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -43,7 +43,6 @@ public class CommandFly implements CommandExecutor {
                     }
                     if (!player.getAllowFlight()) {
                         new FlyMode(player, 1, true);
-                        return;
                     }
                 } else if (args.length == 1) {
                     Player player = (Player) sender;
@@ -52,28 +51,26 @@ public class CommandFly implements CommandExecutor {
                     } else if (args[0].equalsIgnoreCase("off")) {
                         new FlyMode(player, 0, true);
                     } else {
-                        sender.sendMessage(I18n.translate("messages.flyError"));
+                        sender.sendMessage(LanguageDB.flyError);
                     }
 
                 } else {
                     Player player = Bukkit.getPlayer(args[0]);
                     if (player == null) {
-                        sender.sendMessage(I18n.translate("messages.notOnline"));
+                        sender.sendMessage(LanguageDB.notOnline);
                         return;
                     }
                     if (args[1].equalsIgnoreCase("on")) {
                         new FlyMode(player, 1, true);
-                        sender.sendMessage("§aFlyMode von " + args[0] + " zu aktiv geändert!");
                     } else if (args[1].equalsIgnoreCase("off")) {
                         new FlyMode(player, 0, true);
-                        sender.sendMessage("§aFlyMode von " + args[0] + " zu inaktiv geändert!");
                     } else {
-                        sender.sendMessage(I18n.translate("messages.flyError"));
+                        sender.sendMessage(LanguageDB.flyError);
                     }
                 }
 
             } else {
-                sender.sendMessage(I18n.translate("messages.noPermission"));
+                sender.sendMessage(LanguageDB.noPermission);
             }
 
         });

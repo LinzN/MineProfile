@@ -41,10 +41,13 @@ public class MineProfilePlugin extends JavaPlugin {
         this.getLogger().info("Saving all players...");
         for (Player p : Bukkit.getOnlinePlayers()) {
             if (!this.getCookieConfig().disabledWorlds.contains(p.getWorld().getName())) {
-                if (HashDB.authLock.contains(p.getUniqueId())) {
-                    HashDB.authLock.remove(p.getUniqueId());
-                } else {
-                    PlayerDataAPI.saveData(p, true, false);
+                if (HashDB.functionState.contains(p.getUniqueId())) {
+                    if (HashDB.authLock.contains(p.getUniqueId())) {
+                        HashDB.authLock.remove(p.getUniqueId());
+                    } else {
+                        PlayerDataAPI.saveData(p, true, false);
+                    }
+                    HashDB.functionState.remove(p.getUniqueId());
                 }
             }
         }
@@ -73,7 +76,7 @@ public class MineProfilePlugin extends JavaPlugin {
             setEnabled(false);
         }
         for (Player p : Bukkit.getOnlinePlayers()) {
-            if (!this.getCookieConfig().disabledWorlds.contains(p.getWorld().getName())){
+            if (!this.getCookieConfig().disabledWorlds.contains(p.getWorld().getName())) {
                 PlayerDataAPI.loadProfile(p);
             }
         }

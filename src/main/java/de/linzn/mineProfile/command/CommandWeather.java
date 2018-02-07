@@ -11,7 +11,7 @@
 package de.linzn.mineProfile.command;
 
 import de.linzn.mineProfile.modies.ChangeWeather;
-import de.linzn.mineProfile.config.I18n;
+import de.linzn.mineProfile.utils.LanguageDB;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -34,15 +34,15 @@ public class CommandWeather implements CommandExecutor {
         executorServiceCommands.submit(() -> {
             if (sender.hasPermission("mineProfile.team.weather")) {
                 if (args.length == 0) {
-                    sender.sendMessage(I18n.translate("messages.weatherError"));
-                    sender.sendMessage(I18n.translate("messages.weatherAvailable"));
+                    sender.sendMessage(LanguageDB.weatherError);
+                    sender.sendMessage(LanguageDB.weatherAvailable);
                 } else {
                     Player player = (Player) sender;
                     new ChangeWeather(player, args[0]);
-                    sender.sendMessage(I18n.translate("messages.changeWeather", args[0]));
+                    sender.sendMessage(LanguageDB.changeWeather.replace("%s", args[0]));
                 }
             } else {
-                sender.sendMessage(I18n.translate("messages.noPermission"));
+                sender.sendMessage(LanguageDB.noPermission);
             }
         });
         return true;

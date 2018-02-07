@@ -22,9 +22,9 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.UUID;
 
-public class SQLInject {
+public class ProfileQuery {
 
-    public static MinePlayerProfile loadInventory(Player player) {
+    public static MinePlayerProfile loadProfile(Player player) {
         MinePlayerProfile data = null;
         ConnectionManager manager = ConnectionManager.DEFAULT;
         try {
@@ -37,46 +37,45 @@ public class SQLInject {
             ResultSet result = sql.executeQuery();
             if (result.next()) {
                 data = new MinePlayerProfile(player);
-                data.setInventoryContentFromString(result.getString(1));
-                data.setArmorContentFromString(result.getString(2));
-                data.setEnderchestContentFromString(result.getString(3));
-                data.setPotionEffectFromString(result.getString(4));
+                data.setInventoryContent(result.getString(1));
+                data.setArmorContent(result.getString(2));
+                data.setEnderchestContent(result.getString(3));
+                data.setPotionEffects(result.getString(4));
                 data.setLevel(result.getInt(5));
                 data.setExp(result.getFloat(6));
                 data.setMaxHealth(result.getDouble(7));
                 data.setHealth(result.getDouble(8));
                 data.setFood(result.getInt(9));
-                data.setGamemodeFromString(result.getString(10));
-                data.setFireticks(result.getInt(11));
+                data.setGameMode(result.getString(10));
+                data.setFireTicks(result.getInt(11));
                 data.setSlot(result.getInt(12));
                 data.setFly(result.getBoolean(13));
                 data.setVanish(result.getBoolean(14));
             }
             result.close();
             sql.close();
-            conn.close();
+            manager.release("mineProfile", conn);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return data;
     }
 
-    public static void saveInventory(MinePlayerProfile data, Boolean unlock) {
+    public static void saveProfile(MinePlayerProfile data, Boolean unlock, long startTime) {
         UUID playerUUID = data.getPlayerUUID();
 
-        String invData = data.getInventoryContentToString();
-        String armorData = data.getArmorContentToString();
-        String endData = data.getEnderchestToString();
-        String potionData = data.getPotionEffectsToString();
+        String invData = data.getInventoryContentSerialized();
+        String armorData = data.getArmorContentSerialized();
+        String endData = data.getEnderchestContentSerialized();
+        String potionData = data.getPotionEffectsSerialized();
 
         int level = data.getLevel();
         float exp = data.getExp();
         double maxHealth = data.getMaxHealth();
         double health = data.getHealth();
         int hunger = data.getFood();
-        String gamemodeData = data.getGameModeToString();
-        int fireticks = data.getFireticks();
+        String gameModeData = data.getGameModeToString();
+        int fireTicks = data.getFireTicks();
         int slot = data.getSlot();
         Date now = new Date();
         int fly = data.getFlyInt();
@@ -103,8 +102,8 @@ public class SQLInject {
             sql.setDouble(9, maxHealth);
             sql.setDouble(10, health);
             sql.setInt(11, hunger);
-            sql.setString(12, gamemodeData);
-            sql.setInt(13, fireticks);
+            sql.setString(12, gameModeData);
+            sql.setInt(13, fireTicks);
             sql.setInt(14, slot);
             sql.setInt(15, fly);
             sql.setInt(16, vanish);
@@ -113,14 +112,15 @@ public class SQLInject {
             /* Execute query*/
             sql.executeUpdate();
             sql.close();
-            conn.close();
+            manager.release("mineProfile", conn);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        Bukkit.getScheduler().runTaskAsynchronously(MineProfilePlugin.inst(), () -> createHistory(data));
+        MineProfilePlugin.inst().getLogger().info("Save speed: " + (System.currentTimeMillis() - startTime) + "ms");
+        Bukkit.getScheduler().runTaskAsynchronously(MineProfilePlugin.inst(), () -> createBackup(data));
     }
 
-    public static void lockInventory(UUID uuid) {
+    public static void blockProfile(UUID uuid) {
         ConnectionManager manager = ConnectionManager.DEFAULT;
         try {
             Connection conn = manager.getConnection("mineProfile");
@@ -128,28 +128,14 @@ public class SQLInject {
                     "UPDATE inventoryData SET lockState = '" + 1 + "' WHERE uuid = '" + uuid.toString() + "';");
             sql.executeUpdate();
             sql.close();
-            conn.close();
+            manager.release("mineProfile", conn);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static void unlockInventory(UUID uuid) {
-        ConnectionManager manager = ConnectionManager.DEFAULT;
-        try {
 
-            Connection conn = manager.getConnection("mineProfile");
-            PreparedStatement sql = conn.prepareStatement(
-                    "UPDATE inventoryData SET lockState = '" + 0 + "' WHERE uuid = '" + uuid.toString() + "';");
-            sql.executeUpdate();
-            sql.close();
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void createInventory(UUID uuid) {
+    public static void createProfile(UUID uuid) {
         ConnectionManager manager = ConnectionManager.DEFAULT;
         try {
             Connection conn = manager.getConnection("mineProfile");
@@ -157,13 +143,13 @@ public class SQLInject {
                     "INSERT INTO inventoryData (uuid, lockState) VALUES ('" + uuid.toString() + "', '" + 1 + "');");
             sql.executeUpdate();
             sql.close();
-            conn.close();
+            manager.release("mineProfile", conn);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static boolean hasInventory(UUID uuid) {
+    public static boolean hasProfile(UUID uuid) {
         ConnectionManager manager = ConnectionManager.DEFAULT;
         try {
             Connection conn = manager.getConnection("mineProfile");
@@ -173,7 +159,7 @@ public class SQLInject {
             boolean exist = result.next();
             result.close();
             sql.close();
-            conn.close();
+            manager.release("mineProfile", conn);
             return exist;
 
         } catch (SQLException e) {
@@ -182,7 +168,7 @@ public class SQLInject {
         return true;
     }
 
-    public static boolean isInventoryLocked(UUID uuid) {
+    public static boolean isProfileBlocked(UUID uuid) {
         ConnectionManager manager = ConnectionManager.DEFAULT;
         try {
             Connection conn = manager.getConnection("mineProfile");
@@ -195,7 +181,7 @@ public class SQLInject {
             }
             result.close();
             sql.close();
-            conn.close();
+            manager.release("mineProfile", conn);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -204,24 +190,22 @@ public class SQLInject {
     }
 
 
-    private static void createHistory(MinePlayerProfile data) {
+    private static void createBackup(MinePlayerProfile data) {
         ConnectionManager manager = ConnectionManager.DEFAULT;
         try {
             Connection conn = manager.getConnection("mineProfile");
-
-
             UUID uuid = data.getPlayerUUID();
-            String invData = data.getInventoryContentToString();
-            String armorData = data.getArmorContentToString();
-            String endData = data.getEnderchestToString();
-            String potionData = data.getPotionEffectsToString();
+            String invData = data.getInventoryContentSerialized();
+            String armorData = data.getArmorContentSerialized();
+            String endData = data.getEnderchestContentSerialized();
+            String potionData = data.getPotionEffectsSerialized();
             int level = data.getLevel();
             float exp = data.getExp();
             double maxHealth = data.getMaxHealth();
             double health = data.getHealth();
             int hunger = data.getFood();
-            String gamemodeData = data.getGameModeToString();
-            int fireticks = data.getFireticks();
+            String gameModeData = data.getGameModeToString();
+            int fireTicks = data.getFireTicks();
             int slot = data.getSlot();
             Date now = new Date();
             int fly = data.getFlyInt();
@@ -230,15 +214,14 @@ public class SQLInject {
             PreparedStatement sql1 = conn.prepareStatement(
                     "INSERT INTO inventoryHistory (uuid, timeStamp, inventoryData, armorData, enderData,  potionData, level, exp, maxHealth, health, food, gamemodeData, fireticks, slot, fly, vanish) VALUES ('"
                             + uuid + "', '" + now.getTime() + "', ?, ?, ?, '" + potionData + "', '" + level + "', '" + exp + "', '" + maxHealth + "', '" + health
-                            + "', '" + hunger + "', '" + gamemodeData + "', '" + fireticks + "', '" + slot + "', '"
+                            + "', '" + hunger + "', '" + gameModeData + "', '" + fireTicks + "', '" + slot + "', '"
                             + fly + "', '" + vanish + "');");
             sql1.setString(1, invData);
             sql1.setString(2, armorData);
             sql1.setString(3, endData);
             sql1.executeUpdate();
             sql1.close();
-
-            conn.close();
+            manager.release("mineProfile", conn);
         } catch (SQLException e) {
             e.printStackTrace();
         }

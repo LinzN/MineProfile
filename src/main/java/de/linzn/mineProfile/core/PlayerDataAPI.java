@@ -11,8 +11,7 @@
 package de.linzn.mineProfile.core;
 
 import de.linzn.mineProfile.MineProfilePlugin;
-import de.linzn.mineProfile.config.I18n;
-import de.linzn.mineProfile.database.SQLInject;
+import de.linzn.mineProfile.database.ProfileQuery;
 import de.linzn.mineProfile.modies.FlyMode;
 import de.linzn.mineProfile.modies.VanishMode;
 import de.linzn.mineProfile.task.InventoryLoad;
@@ -57,7 +56,7 @@ public class PlayerDataAPI {
             player.setHealth(data.getHealth());
             player.setFoodLevel(data.getFood());
             player.setGameMode(data.getGameMode());
-            player.setFireTicks(data.getFireticks());
+            player.setFireTicks(data.getFireTicks());
             player.getInventory().setHeldItemSlot(data.getSlot());
             new FlyMode(player, data.getFlyInt(), false);
             new VanishMode(player, data.getVanishInt(), false);
@@ -66,35 +65,38 @@ public class PlayerDataAPI {
     }
 
     public static void loadData(final Player player) {
-        MinePlayerProfile data = SQLInject.loadInventory(player);
+        long startTime = System.currentTimeMillis();
+        MinePlayerProfile data = ProfileQuery.loadProfile(player);
         setData(player, data);
-        SQLInject.lockInventory(player.getUniqueId());
+        ProfileQuery.blockProfile(player.getUniqueId());
         HashDB.authLock.remove(player.getUniqueId());
+        MineProfilePlugin.inst().getLogger().info("Load speed: " + (System.currentTimeMillis() - startTime) + "ms");
     }
 
     public static void saveData(final Player player, final boolean logout, final boolean newTask) {
+        long startTime = System.currentTimeMillis();
         MinePlayerProfile data = new MinePlayerProfile(player);
         data.setInventoryContent(player.getInventory().getContents());
         data.setArmorContent(player.getInventory().getArmorContents());
         data.setEnderchestContent(player.getEnderChest().getContents());
-        data.setPotionEffect(player.getActivePotionEffects());
+        data.setPotionEffects(player.getActivePotionEffects());
         data.setLevel(player.getLevel());
         data.setExp(player.getExp());
         data.setMaxHealth(player.getMaxHealth());
         data.setHealth(player.getHealth());
         data.setFood(player.getFoodLevel());
-        data.setGamemode(player.getGameMode());
-        data.setFireticks(player.getFireTicks());
+        data.setGameMode(player.getGameMode());
+        data.setFireTicks(player.getFireTicks());
         data.setSlot(player.getInventory().getHeldItemSlot());
         data.setFlyInt(FlyMode.getFlyMode(player));
         data.setVanishInt(VanishMode.getVanishMode(player));
         final MinePlayerProfile savedData = data;
         if (newTask) {
             MineProfilePlugin.inst().getServer().getScheduler().runTaskAsynchronously(MineProfilePlugin.inst(),
-                    () -> SQLInject.saveInventory(savedData, logout));
+                    () -> ProfileQuery.saveProfile(savedData, logout, startTime));
 
         } else {
-            SQLInject.saveInventory(savedData, logout);
+            ProfileQuery.saveProfile(savedData, logout, startTime);
         }
     }
 
@@ -103,20 +105,20 @@ public class PlayerDataAPI {
         final int tid = MineProfilePlugin.inst().getServer().getScheduler()
                 .scheduleSyncRepeatingTask(MineProfilePlugin.inst(), () -> {
                     if (HashDB.authLock.contains(p.getUniqueId())) {
-                        p.sendMessage(I18n.translate("messages.unsuccessLoaded"));
+                        p.sendMessage("§4Dein Profil ist nicht geladen! Versuche mit /inv load");
                     } else {
                         new InventorySave(p, false);
                     }
                 }, 240L, time);
 
-        HashDB.taskID.put(p.getUniqueId(), tid);
+        HashDB.bukkitTaskId.put(p.getUniqueId(), tid);
     }
 
     private static void stopPlayerSavingScheduler(Player p) {
-        if (HashDB.taskID.containsKey(p.getUniqueId())) {
-            int tid = HashDB.taskID.get(p.getUniqueId());
+        if (HashDB.bukkitTaskId.containsKey(p.getUniqueId())) {
+            int tid = HashDB.bukkitTaskId.get(p.getUniqueId());
             MineProfilePlugin.inst().getServer().getScheduler().cancelTask(tid);
-            HashDB.taskID.remove(p.getUniqueId());
+            HashDB.bukkitTaskId.remove(p.getUniqueId());
         }
 
     }
@@ -124,6 +126,7 @@ public class PlayerDataAPI {
 
     public static void loadProfile(Player player) {
         HashDB.authLock.add(player.getUniqueId());
+        HashDB.functionState.add(player.getUniqueId());
         new InventoryLoad(player, false);
         if (MineProfilePlugin.inst().getCookieConfig().autosave) {
             startPlayerSavingScheduler(player);
@@ -132,13 +135,16 @@ public class PlayerDataAPI {
     }
 
     public static void unloadProfile(Player player) {
-        if (HashDB.authLock.contains(player.getUniqueId())) {
-            HashDB.authLock.remove(player.getUniqueId());
-        } else {
-            new InventorySave(player, true);
-        }
-        if (MineProfilePlugin.inst().getCookieConfig().autosave) {
-            stopPlayerSavingScheduler(player);
+        if (HashDB.functionState.contains(player.getUniqueId())) {
+            if (HashDB.authLock.contains(player.getUniqueId())) {
+                HashDB.authLock.remove(player.getUniqueId());
+            } else {
+                new InventorySave(player, true);
+            }
+            if (MineProfilePlugin.inst().getCookieConfig().autosave) {
+                stopPlayerSavingScheduler(player);
+            }
+            HashDB.functionState.remove(player.getUniqueId());
         }
 
     }

@@ -11,7 +11,7 @@
 package de.linzn.mineProfile.modies;
 
 import de.linzn.mineProfile.MineProfilePlugin;
-import de.linzn.mineProfile.config.I18n;
+import de.linzn.mineProfile.utils.LanguageDB;
 import org.bukkit.entity.Player;
 
 public class InvClear {
@@ -20,7 +20,7 @@ public class InvClear {
         MineProfilePlugin.inst().getServer().getScheduler().scheduleSyncDelayedTask(MineProfilePlugin.inst(),
                 () -> {
                     player.getInventory().clear();
-                    player.sendMessage(I18n.translate("messages.clearInventory"));
+                    player.sendMessage(LanguageDB.clearInventory);
                 });
     }
 

@@ -12,11 +12,11 @@ package de.linzn.mineProfile.task;
 
 import de.linzn.mineProfile.MineProfilePlugin;
 import de.linzn.mineProfile.core.PlayerDataAPI;
-import de.linzn.mineProfile.database.SQLInject;
+import de.linzn.mineProfile.database.ProfileQuery;
 import de.linzn.mineProfile.utils.HashDB;
 import org.bukkit.entity.Player;
 
-public class InventoryLoad extends SQLInject {
+public class InventoryLoad extends ProfileQuery {
 
     public InventoryLoad(Player player, boolean isCommand) {
         load(player, isCommand);
@@ -27,9 +27,9 @@ public class InventoryLoad extends SQLInject {
             int loopNumber = 0;
             boolean loaded = false;
 
-            if (!SQLInject.hasInventory(player.getUniqueId())) {
+            if (!ProfileQuery.hasProfile(player.getUniqueId())) {
                 MineProfilePlugin.inst().getLogger().info("Create: " + player.getName());
-                SQLInject.createInventory(player.getUniqueId());
+                ProfileQuery.createProfile(player.getUniqueId());
                 HashDB.authLock.remove(player.getUniqueId());
                 player.sendMessage("§aDein Profil wurde erstellt.");
                 return;
@@ -48,7 +48,7 @@ public class InventoryLoad extends SQLInject {
                     MineProfilePlugin.inst().getLogger().info("Load loop " + loopNumber + " for: " + player.getName());
                 }
 
-                if (!SQLInject.isInventoryLocked(player.getUniqueId())) {
+                if (!ProfileQuery.isProfileBlocked(player.getUniqueId())) {
                     PlayerDataAPI.loadData(player);
                 }
 
@@ -64,7 +64,6 @@ public class InventoryLoad extends SQLInject {
             if (isCommand) {
                 PlayerDataAPI.loadData(player);
                 player.sendMessage("§aDein Profil wurde nachgeladen.");
-
             }
 
             if (HashDB.authLock.contains(player.getUniqueId())) {

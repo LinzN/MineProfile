@@ -13,7 +13,7 @@ package de.linzn.mineProfile.listener;
 import de.linzn.mineProfile.MineProfilePlugin;
 import de.linzn.mineProfile.core.PlayerDataAPI;
 import de.linzn.mineProfile.core.UtilsAPI;
-import de.linzn.mineProfile.database.SQLInject;
+import de.linzn.mineProfile.database.ProfileQuery;
 import de.linzn.mineProfile.modies.VanishMode;
 import de.linzn.mineProfile.utils.HashDB;
 import org.bukkit.Bukkit;
@@ -31,12 +31,12 @@ import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 
-public class BukkitEvents extends SQLInject implements Listener {
+public class BukkitEvents extends ProfileQuery implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerJoin(final PlayerJoinEvent event) {
         event.getPlayer().setFallDistance(0L);
-        if (!MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getPlayer().getWorld().getName())){
+        if (!MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getPlayer().getWorld().getName())) {
             new VanishMode(event.getPlayer(), 1, false);
             PlayerDataAPI.loadProfile(event.getPlayer());
         }
@@ -44,7 +44,7 @@ public class BukkitEvents extends SQLInject implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerQuit(final PlayerQuitEvent event) {
-        if (!MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getPlayer().getWorld().getName())){
+        if (!MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getPlayer().getWorld().getName())) {
             PlayerDataAPI.unloadProfile(event.getPlayer());
         }
     }
@@ -125,7 +125,7 @@ public class BukkitEvents extends SQLInject implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void ChangeWorld(PlayerChangedWorldEvent event) {
         Player p = event.getPlayer();
-        if (MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getFrom().getName()) && !MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getPlayer().getWorld().getName())){
+        if (MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getFrom().getName()) && !MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getPlayer().getWorld().getName())) {
             PlayerDataAPI.loadProfile(p);
         } else if (!MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getFrom().getName()) && MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getPlayer().getWorld().getName())) {
             PlayerDataAPI.unloadProfile(p);

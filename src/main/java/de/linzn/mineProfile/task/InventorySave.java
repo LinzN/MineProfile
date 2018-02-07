@@ -12,10 +12,10 @@ package de.linzn.mineProfile.task;
 
 import de.linzn.mineProfile.MineProfilePlugin;
 import de.linzn.mineProfile.core.PlayerDataAPI;
-import de.linzn.mineProfile.database.SQLInject;
+import de.linzn.mineProfile.database.ProfileQuery;
 import org.bukkit.entity.Player;
 
-public class InventorySave extends SQLInject {
+public class InventorySave extends ProfileQuery {
 
     public InventorySave(Player player, boolean logout) {
         save(player, logout);

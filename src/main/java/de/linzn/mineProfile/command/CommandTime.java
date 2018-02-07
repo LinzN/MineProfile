@@ -11,7 +11,7 @@
 package de.linzn.mineProfile.command;
 
 import de.linzn.mineProfile.modies.ChangeTime;
-import de.linzn.mineProfile.config.I18n;
+import de.linzn.mineProfile.utils.LanguageDB;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -34,15 +34,15 @@ public class CommandTime implements CommandExecutor {
         executorServiceCommands.submit(() -> {
             if (sender.hasPermission("mineProfile.team.time")) {
                 if (args.length == 0) {
-                    sender.sendMessage(I18n.translate("messages.timeError"));
-                    sender.sendMessage(I18n.translate("messages.timeAvailable"));
+                    sender.sendMessage(LanguageDB.timeError);
+                    sender.sendMessage(LanguageDB.timeAvailable);
                 } else {
                     Player player = (Player) sender;
                     new ChangeTime(player, args[0]);
-                    sender.sendMessage(I18n.translate("messages.changeTime", args[0]));
+                    sender.sendMessage(LanguageDB.changeTime.replace("%s", args[0]));
                 }
             } else {
-                sender.sendMessage(I18n.translate("messages.noPermission"));
+                sender.sendMessage(LanguageDB.noPermission);
             }
         });
         return true;

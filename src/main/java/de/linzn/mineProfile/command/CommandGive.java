@@ -11,7 +11,7 @@
 package de.linzn.mineProfile.command;
 
 import de.linzn.mineProfile.modies.InvGive;
-import de.linzn.mineProfile.config.I18n;
+import de.linzn.mineProfile.utils.LanguageDB;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -38,11 +38,11 @@ public class CommandGive implements CommandExecutor {
         executorServiceCommands.submit(() -> {
             if (sender.hasPermission("mineProfile.team.give")) {
                 if (args.length < 1) {
-                    sender.sendMessage(I18n.translate("messages.giveError"));
+                    sender.sendMessage(LanguageDB.giveError);
                 } else {
                     Player player = Bukkit.getPlayer(args[0]);
                     if (player == null) {
-                        sender.sendMessage(I18n.translate("messages.notOnline"));
+                        sender.sendMessage(LanguageDB.notOnline);
                         return;
                     }
                     Material material = Material.matchMaterial(args[1]);
@@ -70,11 +70,11 @@ public class CommandGive implements CommandExecutor {
                         new InvGive(player, stack);
 
                     } else {
-                        sender.sendMessage(I18n.translate("messages.noItem"));
+                        sender.sendMessage(LanguageDB.noItem);
                     }
                 }
             } else {
-                sender.sendMessage(I18n.translate("messages.noPermission"));
+                sender.sendMessage(LanguageDB.noPermission);
             }
         });
         return true;

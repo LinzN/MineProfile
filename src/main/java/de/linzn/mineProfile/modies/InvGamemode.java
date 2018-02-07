@@ -11,7 +11,7 @@
 package de.linzn.mineProfile.modies;
 
 import de.linzn.mineProfile.MineProfilePlugin;
-import de.linzn.mineProfile.config.I18n;
+import de.linzn.mineProfile.utils.LanguageDB;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
@@ -23,19 +23,19 @@ public class InvGamemode {
                     if (mode == 0) {
                         player.setGameMode(GameMode.SURVIVAL);
                         if (showInfo)
-                            player.sendMessage(I18n.translate("messages.changeGamemode", "SURVIVAL"));
+                            player.sendMessage(LanguageDB.changeGamemode.replace("%s", "SURVIVAL"));
                     } else if (mode == 1) {
                         player.setGameMode(GameMode.CREATIVE);
                         if (showInfo)
-                            player.sendMessage(I18n.translate("messages.changeGamemode", "CREATIVE"));
+                            player.sendMessage(LanguageDB.changeGamemode.replace("%s", "CREATIVE"));
                     } else if (mode == 2) {
                         player.setGameMode(GameMode.ADVENTURE);
                         if (showInfo)
-                            player.sendMessage(I18n.translate("messages.changeGamemode", "ADVENTURE"));
+                            player.sendMessage(LanguageDB.changeGamemode.replace("%s", "ADVENTURE"));
                     } else if (mode == 3) {
                         player.setGameMode(GameMode.SPECTATOR);
                         if (showInfo)
-                            player.sendMessage(I18n.translate("messages.changeGamemode", "SPECTATOR"));
+                            player.sendMessage(LanguageDB.changeGamemode.replace("%s", "SPECTATOR"));
                     }
                 });
     }

@@ -24,7 +24,7 @@ public class MinePlayerProfile {
     private UUID playerUUID;
     private ItemStack[] inventory;
     private ItemStack[] armor;
-    private ItemStack[] enderchest;
+    private ItemStack[] enderChest;
     private Collection<PotionEffect> effects;
     private int level;
     private float exp;
@@ -32,7 +32,7 @@ public class MinePlayerProfile {
     private double health;
     private int food;
     private GameMode gamemode;
-    private int fireticks;
+    private int fireTicks;
     private int slot;
     private boolean fly;
     private boolean vanish;
@@ -42,80 +42,111 @@ public class MinePlayerProfile {
         this.playerUUID = player.getUniqueId();
     }
 
-    public void setInventoryContentFromString(String data) {
-        this.inventory = SerializerFull.itemStackArrayFromBase64_old(data);
-    }
-
-    public void setArmorContentFromString(String data) {
-        this.armor = SerializerFull.itemStackArrayFromBase64_old(data);
-    }
-
-    public void setEnderchestContentFromString(String data) {
-        this.enderchest = SerializerFull.itemStackArrayFromBase64_old(data);
-    }
-
-
-    public void setPotionEffectFromString(String data) {
-        this.effects = SerializerFull.potionEffectsFromString(data);
-    }
-
-    public void setPotionEffect(Collection<PotionEffect> data) {
-        this.effects = data;
-    }
-
-    public void setGamemodeFromString(String gamemode) {
-        this.gamemode = GameMode.valueOf(gamemode);
-    }
-
-    public void setGamemode(GameMode gamemode) {
-        this.gamemode = gamemode;
+    /* Inventory data */
+    /* Set content */
+    public void setInventoryContent(ItemStack[] data) {
+        this.inventory = data;
     }
 
     public ItemStack[] getInventoryContent() {
         return this.inventory;
     }
 
-    public void setInventoryContent(ItemStack[] data) {
-        this.inventory = data;
+    /* Get content */
+
+    public void setInventoryContent(String data) {
+        this.inventory = SerializerFull.itemStackArrayFromBase64(data);
     }
 
-    public String getInventoryContentToString() {
-        return SerializerFull.itemStackArrayToBase64_old(this.inventory);
+    public String getInventoryContentSerialized() {
+        return SerializerFull.itemStackArrayToBase64(this.inventory);
     }
+    /* Inventory data end */
 
-    public ItemStack[] getArmorContent() {
-        return this.armor;
-    }
 
+    /* Armor data */
+    /* Set content */
     public void setArmorContent(ItemStack[] data) {
         this.armor = data;
     }
 
-    public String getArmorContentToString() {
-        return SerializerFull.itemStackArrayToBase64_old(this.armor);
+    /* Get content */
+    public ItemStack[] getArmorContent() {
+        return this.armor;
     }
 
-
-    public ItemStack[] getEnderchestContent() {
-        return this.enderchest;
+    public void setArmorContent(String data) {
+        this.armor = SerializerFull.itemStackArrayFromBase64(data);
     }
 
+    public String getArmorContentSerialized() {
+        return SerializerFull.itemStackArrayToBase64(this.armor);
+    }
+
+    /* Armor data end */
+
+
+    /* EnderChest data */
+    /* Set content */
     public void setEnderchestContent(ItemStack[] data) {
-        this.enderchest = data;
+        this.enderChest = data;
     }
 
-    public String getEnderchestToString() {
-        return SerializerFull.itemStackArrayToBase64_old(this.enderchest);
+    /* Get content */
+    public ItemStack[] getEnderchestContent() {
+        return this.enderChest;
     }
 
+    public void setEnderchestContent(String data) {
+        this.enderChest = SerializerFull.itemStackArrayFromBase64(data);
+    }
 
+    public String getEnderchestContentSerialized() {
+        return SerializerFull.itemStackArrayToBase64(this.enderChest);
+    }
+
+    /* EnderChest data end */
+
+    /* Potion data */
+    /* Set content */
+    public void setPotionEffects(Collection<PotionEffect> data) {
+        this.effects = data;
+    }
+
+    /* Get content */
     public Collection<PotionEffect> getPotionEffects() {
         return this.effects;
     }
 
-    public String getPotionEffectsToString() {
+    public void setPotionEffects(String data) {
+        this.effects = SerializerFull.potionEffectsFromString(data);
+    }
+
+    public String getPotionEffectsSerialized() {
         return SerializerFull.potionEffectsToString(this.effects);
     }
+    /* Potion data end */
+
+    /* Gamemode data */
+    /* Set content */
+    public void setGameMode(String gameMode) {
+        this.gamemode = GameMode.valueOf(gameMode);
+    }
+
+    /* Get content */
+    public GameMode getGameMode() {
+        return this.gamemode;
+    }
+
+    public void setGameMode(GameMode gameMode) {
+        this.gamemode = gameMode;
+    }
+
+    public String getGameModeToString() {
+        return this.gamemode.name();
+    }
+    /* Gamemode end */
+
 
     public int getLevel() {
         return this.level;
@@ -129,7 +160,6 @@ public class MinePlayerProfile {
         return this.exp;
     }
 
-    // Now get data
 
     public void setExp(float exp) {
         this.exp = exp;
@@ -159,20 +189,13 @@ public class MinePlayerProfile {
         this.food = data;
     }
 
-    public GameMode getGameMode() {
-        return this.gamemode;
+
+    public int getFireTicks() {
+        return this.fireTicks;
     }
 
-    public String getGameModeToString() {
-        return this.gamemode.name();
-    }
-
-    public int getFireticks() {
-        return this.fireticks;
-    }
-
-    public void setFireticks(int data) {
-        this.fireticks = data;
+    public void setFireTicks(int data) {
+        this.fireTicks = data;
     }
 
     public int getSlot() {
