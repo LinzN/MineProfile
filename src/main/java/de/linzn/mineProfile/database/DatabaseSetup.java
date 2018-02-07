@@ -34,8 +34,8 @@ public class DatabaseSetup {
 
         try {
             Connection connection = handler.getConnection();
-            String data = "CREATE TABLE IF NOT EXISTS inventoryData (uuid CHAR(36) NOT NULL, lockState TINYINT(1), time BIGINT, inventoryData TEXT, armorData TEXT, enderData TEXT, potionData TEXT, level INT, exp FLOAT, maxHealth DOUBLE, health DOUBLE, food INT, gamemodeData TEXT, fireticks INT, slot INT, fly TINYINT(1), vanishedUUID TINYINT(1), PRIMARY KEY (uuid));";
-            String history = "CREATE TABLE IF NOT EXISTS inventoryHistory (id int NOT NULL AUTO_INCREMENT, uuid CHAR(36), timeStamp BIGINT, inventoryData TEXT, armorData TEXT, enderData TEXT, potionData TEXT, level INT, exp FLOAT, maxHealth DOUBLE, health DOUBLE, food INT, gamemodeData TEXT, fireticks INT, slot INT, fly TINYINT(1), vanishedUUID TINYINT(1), PRIMARY KEY (id));";
+            String data = "CREATE TABLE IF NOT EXISTS inventoryData (uuid CHAR(36) NOT NULL, lockState TINYINT(1), time BIGINT, inventoryData TEXT, armorData TEXT, enderData TEXT, potionData TEXT, level INT, exp FLOAT, maxHealth DOUBLE, health DOUBLE, food INT, gamemodeData TEXT, fireticks INT, slot INT, fly TINYINT(1), vanish TINYINT(1), PRIMARY KEY (uuid));";
+            String history = "CREATE TABLE IF NOT EXISTS inventoryHistory (id int NOT NULL AUTO_INCREMENT, uuid CHAR(36), timeStamp BIGINT, inventoryData TEXT, armorData TEXT, enderData TEXT, potionData TEXT, level INT, exp FLOAT, maxHealth DOUBLE, health DOUBLE, food INT, gamemodeData TEXT, fireticks INT, slot INT, fly TINYINT(1), vanish TINYINT(1), PRIMARY KEY (id));";
             Statement action = connection.createStatement();
             action.executeUpdate(data);
             action.executeUpdate(history);

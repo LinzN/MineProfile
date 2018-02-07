@@ -10,8 +10,10 @@
 
 package de.linzn.mineProfile.command;
 
+import de.linzn.mineProfile.MineProfilePlugin;
 import de.linzn.mineProfile.modies.VanishMode;
 import de.linzn.mineProfile.utils.LanguageDB;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -32,21 +34,21 @@ public class CommandVanish implements CommandExecutor {
 
     public boolean onCommand(final CommandSender sender, Command cmd, String label, final String[] args) {
         executorServiceCommands.submit(() -> {
-            if (sender.hasPermission("mineProfile.team.vanishedUUID")) {
+            if (sender.hasPermission("mineProfile.team.vanish")) {
                 if (args.length == 0) {
                     Player player = (Player) sender;
                     if (VanishMode.isInVanishMode(player)) {
-                        new VanishMode(player, 0, true);
+                        Bukkit.getScheduler().runTask(MineProfilePlugin.inst(), () -> new VanishMode(player, 0, true));
 
                     } else {
-                        new VanishMode(player, 1, true);
+                        Bukkit.getScheduler().runTask(MineProfilePlugin.inst(), () -> new VanishMode(player, 1, true));
                     }
                 } else {
                     Player player = (Player) sender;
                     if (args[0].equalsIgnoreCase("on")) {
-                        new VanishMode(player, 1, true);
+                        Bukkit.getScheduler().runTask(MineProfilePlugin.inst(), () -> new VanishMode(player, 1, true));
                     } else if (args[0].equalsIgnoreCase("off")) {
-                        new VanishMode(player, 0, true);
+                        Bukkit.getScheduler().runTask(MineProfilePlugin.inst(), () -> new VanishMode(player, 0, true));
                     } else {
                         sender.sendMessage(LanguageDB.vanishError);
                     }

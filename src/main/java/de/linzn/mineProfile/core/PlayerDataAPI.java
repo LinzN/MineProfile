@@ -107,7 +107,7 @@ public class PlayerDataAPI {
                     if (HashDB.authLock.contains(p.getUniqueId())) {
                         p.sendMessage("§4Dein Profil ist nicht geladen! Versuche mit /inv load");
                     } else {
-                        new InventorySave(p, false);
+                        new InventorySave(p, false, true);
                     }
                 }, 240L, time);
 
@@ -134,12 +134,12 @@ public class PlayerDataAPI {
         VanishMode.setVanishedHashMapForPlayer(player);
     }
 
-    public static void unloadProfile(Player player) {
+    public static void unloadProfile(Player player, boolean newThread) {
         if (HashDB.functionState.contains(player.getUniqueId())) {
             if (HashDB.authLock.contains(player.getUniqueId())) {
                 HashDB.authLock.remove(player.getUniqueId());
             } else {
-                new InventorySave(player, true);
+                new InventorySave(player, true, newThread);
             }
             if (MineProfilePlugin.inst().getCookieConfig().autosave) {
                 stopPlayerSavingScheduler(player);

@@ -17,11 +17,11 @@ import org.bukkit.entity.Player;
 
 public class InventorySave extends ProfileQuery {
 
-    public InventorySave(Player player, boolean logout) {
-        save(player, logout);
+    public InventorySave(Player player, boolean logout, boolean newThread) {
+        save(player, logout, newThread);
     }
 
-    private void save(Player player, boolean logout) {
+    private void save(Player player, boolean logout, boolean newThread) {
         if (MineProfilePlugin.inst().getCookieConfig().debug) {
             if (logout) {
                 player.sendMessage("§aDein Profil wurde gespeichert!");
@@ -30,6 +30,6 @@ public class InventorySave extends ProfileQuery {
                 MineProfilePlugin.inst().getLogger().info("Autosaving: " + player.getName());
             }
         }
-        PlayerDataAPI.saveData(player, logout, true);
+        PlayerDataAPI.saveData(player, logout, newThread);
     }
 }

@@ -45,7 +45,7 @@ public class BukkitEvents extends ProfileQuery implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerQuit(final PlayerQuitEvent event) {
         if (!MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getPlayer().getWorld().getName())) {
-            PlayerDataAPI.unloadProfile(event.getPlayer());
+            PlayerDataAPI.unloadProfile(event.getPlayer(), true);
         }
     }
 
@@ -128,7 +128,7 @@ public class BukkitEvents extends ProfileQuery implements Listener {
         if (MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getFrom().getName()) && !MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getPlayer().getWorld().getName())) {
             PlayerDataAPI.loadProfile(p);
         } else if (!MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getFrom().getName()) && MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getPlayer().getWorld().getName())) {
-            PlayerDataAPI.unloadProfile(p);
+            PlayerDataAPI.unloadProfile(p, true);
             Bukkit.getScheduler().runTaskLater(MineProfilePlugin.inst(), () -> p.getInventory().clear(), 20L);
         }
 

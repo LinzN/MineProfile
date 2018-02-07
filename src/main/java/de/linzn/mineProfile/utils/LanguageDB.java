@@ -10,9 +10,9 @@ public class LanguageDB {
     public static String noGamemode = "§c§lDieser GameMode gibt es nicht!";
     public static String noItem = "§c§lDieses Item gibt es nicht!";
     public static String clearInventory = "§e§lInventar wurde entleert!";
-    public static String changeFlymode = "§a§lAktueller Flugmodus: §e%s";
-    public static String changeGamemode = "§a§lAktueller Gamemode: §e%s";
-    public static String changeVanishmode = "§a§lAktueller Vanishmode: §e%s";
+    public static String changeFlymode = "§a§lFly Status: §e%s";
+    public static String changeGamemode = "§a§lGameMode Status: §e%s";
+    public static String changeVanishmode = "§a§lVanish Status: §e%s";
     public static String createItemstack = "§a§lItemStack erstellt: §e%s1 §aData: §e%s2 §a§lMenge: §e%s3";
     public static String flyError = "§c§lBenutze: §e/fly (on|off) §c§loder §e/fly <Spieler> (on|off)";
     public static String vanishError = "§c§lBenutze: /vanish (on|off)";
@@ -23,6 +23,6 @@ public class LanguageDB {
     public static String weatherAvailable = "§c§lVerfügbar: §eSUN, RAIN, THUNDER";
     public static String gamemodeError = "§c§lBenutze: §e/gm (GameMode) oder /gm <Spieler> (GameMode)";
 
-    public static String title1 = "§e§n§6-==============[§2§lMineProfile§r§6]==============-";
+    public static String title1 = "§e§n§6-===========[§2§lMineProfile by Kekshaus§r§6]============-";
     public static String title2 = " §a§lInventar bei Fehler manuell laden : §e/inv load";
 }

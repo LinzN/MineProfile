@@ -24,7 +24,7 @@ public class VanishMode {
         if (mode == 1) {
             for (Player p : Bukkit.getOnlinePlayers()) {
                 if (p != player) {
-                    if (!p.hasPermission("mineProfile.team.vanishedUUID")) {
+                    if (!p.hasPermission("mineProfile.team.vanish")) {
                         p.hidePlayer(player);
                     }
                 }
@@ -32,11 +32,10 @@ public class VanishMode {
             if (Bukkit.getPluginManager().getPlugin("dynmap") != null) {
                 DynmapPlugin.plugin.setPlayerVisiblity(player, false);
             }
-            HashDB.vanishedUUID.add(player.getUniqueId());
+            HashDB.vanishedUUIDs.add(player.getUniqueId());
             if (showInfo)
                 player.sendMessage(LanguageDB.changeVanishmode.replace("%s", "AKTIVIERT"));
         } else if (mode == 0) {
-
             for (Player p : Bukkit.getOnlinePlayers()) {
                 if (p != player) {
                     p.showPlayer(player);
@@ -46,7 +45,7 @@ public class VanishMode {
             if (Bukkit.getPluginManager().getPlugin("dynmap") != null) {
                 DynmapPlugin.plugin.setPlayerVisiblity(player, true);
             }
-            HashDB.vanishedUUID.remove(player.getUniqueId());
+            HashDB.vanishedUUIDs.remove(player.getUniqueId());
             if (showInfo)
                 player.sendMessage(LanguageDB.changeVanishmode.replace("%s", "DEAKTIVIERT"));
         }
@@ -54,7 +53,7 @@ public class VanishMode {
 
     public static int getVanishMode(Player player) {
         int mode;
-        if (HashDB.vanishedUUID.contains(player.getUniqueId())) {
+        if (HashDB.vanishedUUIDs.contains(player.getUniqueId())) {
             mode = 1;
         } else {
             mode = 0;
@@ -64,14 +63,14 @@ public class VanishMode {
     }
 
     public static boolean isInVanishMode(Player player) {
-        return HashDB.vanishedUUID.contains(player.getUniqueId());
+        return HashDB.vanishedUUIDs.contains(player.getUniqueId());
 
     }
 
     public static void setVanishedHashMapForPlayer(Player player) {
-        if (!player.hasPermission("mineProfile.team.vanishedUUID")) {
-            for (UUID aVanishedUUID : HashDB.vanishedUUID) {
-                Player vp = Bukkit.getPlayer(aVanishedUUID);
+        if (!player.hasPermission("mineProfile.team.vanish")) {
+            for (UUID vanishedUUID : HashDB.vanishedUUIDs) {
+                Player vp = Bukkit.getPlayer(vanishedUUID);
                 if (vp != null) {
                     player.hidePlayer(vp);
                 }
