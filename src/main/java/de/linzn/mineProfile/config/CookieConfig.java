@@ -30,8 +30,6 @@ public class CookieConfig {
     private FileConfiguration config;
 
     public CookieConfig(final MineProfilePlugin plugin) {
-
-        plugin.getServer().getScheduler().runTask(plugin, () -> {
             plugin.saveDefaultConfig();
 
             config = plugin.getConfig();
@@ -40,7 +38,6 @@ public class CookieConfig {
             loaded = true;
 
             plugin.saveDefaultConfig();
-        });
     }
 
     private boolean existsPath(final String path) {
