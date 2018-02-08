@@ -13,6 +13,7 @@ package de.linzn.mineProfile.task;
 import de.linzn.mineProfile.MineProfilePlugin;
 import de.linzn.mineProfile.core.PlayerDataAPI;
 import de.linzn.mineProfile.database.ProfileQuery;
+import de.linzn.mineProfile.utils.ActionBarSender;
 import de.linzn.mineProfile.utils.HashDB;
 import org.bukkit.entity.Player;
 
@@ -35,7 +36,6 @@ public class InventoryLoad extends ProfileQuery {
                 return;
             }
             MineProfilePlugin.inst().getLogger().info("Load: " + player.getName());
-            //PlayerDataAPI.preparePlayerData(player);
 
             while (loopNumber <= 10 && !loaded) {
                 try {
@@ -53,9 +53,8 @@ public class InventoryLoad extends ProfileQuery {
                 }
 
                 if (!HashDB.authLock.contains(player.getUniqueId())) {
-
                     loaded = true;
-                    player.sendMessage("§aDein Profil wurde geladen.");
+                    ActionBarSender.sendHotBarMessage(player, "§9§lDein Profil wurde geladen.");
 
                 }
                 loopNumber++;
@@ -74,5 +73,6 @@ public class InventoryLoad extends ProfileQuery {
             }
         });
     }
+
 
 }
