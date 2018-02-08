@@ -45,7 +45,7 @@ public class InventoryLoad extends ProfileQuery {
                 }
 
                 if (PlayerDataAPI.debug()) {
-                    MineProfilePlugin.inst().getLogger().info("Load loop " + loopNumber + " for: " + player.getName());
+                    MineProfilePlugin.inst().getLogger().info("Load try " + loopNumber + " for: " + player.getName());
                 }
 
                 if (!ProfileQuery.isProfileBlocked(player.getUniqueId())) {
@@ -61,7 +61,7 @@ public class InventoryLoad extends ProfileQuery {
                 loopNumber++;
 
             }
-            if (isCommand) {
+            if (isCommand && !loaded) {
                 PlayerDataAPI.loadData(player);
                 player.sendMessage("§aDein Profil wurde nachgeladen.");
             }
