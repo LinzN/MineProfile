@@ -61,7 +61,7 @@ public class ProfileQuery {
         return data;
     }
 
-    public static void saveProfile(MinePlayerProfile data, Boolean unlock, long startTime) {
+    public static void saveProfile(MinePlayerProfile data, Boolean unlock, long startTime, boolean newThread) {
         UUID playerUUID = data.getPlayerUUID();
 
         String invData = data.getInventoryContentSerialized();
@@ -117,7 +117,11 @@ public class ProfileQuery {
             e.printStackTrace();
         }
         MineProfilePlugin.inst().getLogger().info("Save speed: " + (System.currentTimeMillis() - startTime) + "ms");
-        Bukkit.getScheduler().runTaskAsynchronously(MineProfilePlugin.inst(), () -> createBackup(data));
+        if (newThread) {
+            Bukkit.getScheduler().runTaskAsynchronously(MineProfilePlugin.inst(), () -> createBackup(data));
+        } else {
+            createBackup(data);
+        }
     }
 
     public static void blockProfile(UUID uuid) {

@@ -93,10 +93,10 @@ public class PlayerDataAPI {
         final MinePlayerProfile savedData = data;
         if (newTask) {
             MineProfilePlugin.inst().getServer().getScheduler().runTaskAsynchronously(MineProfilePlugin.inst(),
-                    () -> ProfileQuery.saveProfile(savedData, logout, startTime));
+                    () -> ProfileQuery.saveProfile(savedData, logout, startTime, true));
 
         } else {
-            ProfileQuery.saveProfile(savedData, logout, startTime);
+            ProfileQuery.saveProfile(savedData, logout, startTime, false);
         }
     }
 
