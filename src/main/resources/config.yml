@@ -24,6 +24,9 @@ sql:
 disabledWorlds:
     - testwelt
 
+creativeWorlds:
+    - testwelt
+
 Config:
 # Do not touch!
   version: 1.0

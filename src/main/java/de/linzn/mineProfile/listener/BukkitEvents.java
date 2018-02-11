@@ -14,6 +14,7 @@ import de.linzn.mineProfile.MineProfilePlugin;
 import de.linzn.mineProfile.core.PlayerDataAPI;
 import de.linzn.mineProfile.core.UtilsAPI;
 import de.linzn.mineProfile.database.ProfileQuery;
+import de.linzn.mineProfile.modies.InvGamemode;
 import de.linzn.mineProfile.modies.VanishMode;
 import de.linzn.mineProfile.utils.HashDB;
 import org.bukkit.Bukkit;
@@ -35,8 +36,17 @@ public class BukkitEvents extends ProfileQuery implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerJoin(final PlayerJoinEvent event) {
-        event.getPlayer().setFallDistance(0L);
-        if (!MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getPlayer().getWorld().getName())) {
+        Player player = event.getPlayer();
+        player.setFallDistance(0L);
+        if (MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getPlayer().getWorld().getName())) {
+            /* If the world is mark as disabled */
+            Bukkit.getScheduler().runTaskLater(MineProfilePlugin.inst(), () -> player.getInventory().clear(), 10L);
+        } else if (MineProfilePlugin.inst().getCookieConfig().creativeWorlds.contains(event.getPlayer().getWorld().getName())) {
+            /* If the world is mark as a creativ world */
+            Bukkit.getScheduler().runTaskLater(MineProfilePlugin.inst(), () -> player.getInventory().clear(), 10L);
+            new InvGamemode(event.getPlayer(), 1, false);
+        } else {
+            /* Default world load */
             new VanishMode(event.getPlayer(), 1, false);
             PlayerDataAPI.loadProfile(event.getPlayer());
         }
@@ -44,7 +54,14 @@ public class BukkitEvents extends ProfileQuery implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerQuit(final PlayerQuitEvent event) {
-        if (!MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getPlayer().getWorld().getName())) {
+        if (MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getPlayer().getWorld().getName())) {
+            /* If the world is mark as disabled */
+            MineProfilePlugin.inst().getLogger().info("No save on disabled world!");
+        } else if (MineProfilePlugin.inst().getCookieConfig().creativeWorlds.contains(event.getPlayer().getWorld().getName())) {
+            /* If the world is mark as a creativ world */
+            MineProfilePlugin.inst().getLogger().info("No save on creative world!");
+        } else {
+            /* Default world save */
             PlayerDataAPI.unloadProfile(event.getPlayer(), true);
         }
     }
@@ -122,15 +139,29 @@ public class BukkitEvents extends ProfileQuery implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void ChangeWorld(PlayerChangedWorldEvent event) {
         Player p = event.getPlayer();
         if (MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getFrom().getName()) && !MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getPlayer().getWorld().getName())) {
+            /* Default world load after disabled world */
+            PlayerDataAPI.loadProfile(p);
+        } else if (MineProfilePlugin.inst().getCookieConfig().creativeWorlds.contains(event.getFrom().getName()) && !MineProfilePlugin.inst().getCookieConfig().creativeWorlds.contains(event.getPlayer().getWorld().getName())) {
+            /* Default world load after creativ world  */
             PlayerDataAPI.loadProfile(p);
         } else if (!MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getFrom().getName()) && MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(event.getPlayer().getWorld().getName())) {
+            /* Save data before enter disabled world */
             PlayerDataAPI.unloadProfile(p, true);
             Bukkit.getScheduler().runTaskLater(MineProfilePlugin.inst(), () -> p.getInventory().clear(), 20L);
+        } else if (!MineProfilePlugin.inst().getCookieConfig().creativeWorlds.contains(event.getFrom().getName()) && MineProfilePlugin.inst().getCookieConfig().creativeWorlds.contains(event.getPlayer().getWorld().getName())) {
+            /* Save data before enter creativ world */
+            PlayerDataAPI.unloadProfile(p, true);
+            Bukkit.getScheduler().runTaskLater(MineProfilePlugin.inst(), () -> {
+                p.getInventory().clear();
+                new InvGamemode(event.getPlayer(), 1, false);
+            }, 10L);
+            ;
         }
+
 
     }
 

@@ -27,17 +27,18 @@ public class CookieConfig {
     public double version = 1.0;
     public boolean loaded = false;
     public List<String> disabledWorlds;
+    public List<String> creativeWorlds;
     private FileConfiguration config;
 
     public CookieConfig(final MineProfilePlugin plugin) {
-            plugin.saveDefaultConfig();
+        plugin.saveDefaultConfig();
 
-            config = plugin.getConfig();
-            loadConfiguration();
+        config = plugin.getConfig();
+        loadConfiguration();
 
-            loaded = true;
+        loaded = true;
 
-            plugin.saveDefaultConfig();
+        plugin.saveDefaultConfig();
     }
 
     private boolean existsPath(final String path) {
@@ -88,6 +89,10 @@ public class CookieConfig {
         ArrayList<String> wList = new ArrayList<>();
         wList.add("testWorld");
         disabledWorlds = get("disabledWorlds", wList);
+
+        ArrayList<String> creative = new ArrayList<>();
+        creative.add("creativtest");
+        creativeWorlds = get("creativeWorlds", creative);
 
     }
 }
