@@ -10,6 +10,7 @@
 
 package de.linzn.mineProfile.modies;
 
+import de.linzn.mineProfile.MineProfilePlugin;
 import de.linzn.mineProfile.utils.HashDB;
 import de.linzn.mineProfile.utils.LanguageDB;
 import org.bukkit.Bukkit;
@@ -48,6 +49,9 @@ public class VanishMode {
             HashDB.vanishedUUIDs.remove(player.getUniqueId());
             if (showInfo)
                 player.sendMessage(LanguageDB.changeVanishmode.replace("%s", "DEAKTIVIERT"));
+        }
+        if (MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(player.getWorld().getName()) || MineProfilePlugin.inst().getCookieConfig().creativeWorlds.contains(player.getWorld().getName())) {
+            player.sendMessage(LanguageDB.warningDisabledworldVanish);
         }
     }
 

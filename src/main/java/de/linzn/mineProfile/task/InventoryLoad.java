@@ -10,10 +10,10 @@
 
 package de.linzn.mineProfile.task;
 
+import de.linzn.mineLib.actionBar.MineActionBar;
 import de.linzn.mineProfile.MineProfilePlugin;
 import de.linzn.mineProfile.core.PlayerDataAPI;
 import de.linzn.mineProfile.database.ProfileQuery;
-import de.linzn.mineProfile.utils.ActionBarSender;
 import de.linzn.mineProfile.utils.HashDB;
 import org.bukkit.entity.Player;
 
@@ -54,8 +54,7 @@ public class InventoryLoad extends ProfileQuery {
 
                 if (!HashDB.authLock.contains(player.getUniqueId())) {
                     loaded = true;
-                    ActionBarSender.sendHotBarMessage(player, "§9§lDein Profil wurde geladen.");
-
+                    new MineActionBar("§9§lDein Profil wurde geladen.").send(player);
                 }
                 loopNumber++;
 

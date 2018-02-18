@@ -32,6 +32,13 @@
         </dependency>
 
         <dependency>
+            <groupId>de.linzn</groupId>
+            <artifactId>mineLib</artifactId>
+            <version>1.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.dynmap</groupId>
             <artifactId>dynmap</artifactId>
             <version>2.5</version>

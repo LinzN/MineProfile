@@ -10,10 +10,10 @@
 
 package de.linzn.mineProfile.task;
 
+import de.linzn.mineLib.actionBar.MineActionBar;
 import de.linzn.mineProfile.MineProfilePlugin;
 import de.linzn.mineProfile.core.PlayerDataAPI;
 import de.linzn.mineProfile.database.ProfileQuery;
-import de.linzn.mineProfile.utils.ActionBarSender;
 import org.bukkit.entity.Player;
 
 public class InventorySave extends ProfileQuery {
@@ -25,7 +25,7 @@ public class InventorySave extends ProfileQuery {
     private void save(Player player, boolean logout, boolean newThread) {
         if (MineProfilePlugin.inst().getCookieConfig().debug) {
             if (logout) {
-                ActionBarSender.sendHotBarMessage(player, "§9§lDein Profil wurde gespeichert!");
+                new MineActionBar("§9§lDein Profil wurde gespeichert!").send(player);
                 MineProfilePlugin.inst().getLogger().info("Save: " + player.getName());
             } else {
                 MineProfilePlugin.inst().getLogger().info("Autosaving: " + player.getName());
