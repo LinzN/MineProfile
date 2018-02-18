@@ -51,7 +51,9 @@ public class VanishMode {
                 player.sendMessage(LanguageDB.changeVanishmode.replace("%s", "DEAKTIVIERT"));
         }
         if (MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(player.getWorld().getName()) || MineProfilePlugin.inst().getCookieConfig().creativeWorlds.contains(player.getWorld().getName())) {
-            player.sendMessage(LanguageDB.warningDisabledworldVanish);
+            if (showInfo) {
+                player.sendMessage(LanguageDB.warningDisabledworldVanish);
+            }
         }
     }
 
