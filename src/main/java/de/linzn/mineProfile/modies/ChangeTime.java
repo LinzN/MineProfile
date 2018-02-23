@@ -11,6 +11,7 @@
 package de.linzn.mineProfile.modies;
 
 import de.linzn.mineProfile.MineProfilePlugin;
+import de.linzn.mineProfile.utils.LanguageDB;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
@@ -21,7 +22,8 @@ public class ChangeTime {
 
         MineProfilePlugin.inst().getServer().getScheduler().scheduleSyncDelayedTask(MineProfilePlugin.inst(),
                 () -> {
-                    long time = 0;
+                    long time;
+                    String name = timeName.toUpperCase();
                     switch (timeName.toUpperCase()) {
                         case "DAY":
                             time = 4284;
@@ -37,10 +39,12 @@ public class ChangeTime {
                             break;
                         default:
                             time = 1000;
+                            name = "DAY";
                             break;
                     }
                     World world = player.getWorld();
                     world.setTime(time);
+                    player.sendMessage(LanguageDB.changeTime.replace("%s", name));
                 });
     }
 

@@ -39,7 +39,6 @@ public class CommandTime implements CommandExecutor {
                 } else {
                     Player player = (Player) sender;
                     new ChangeTime(player, args[0]);
-                    sender.sendMessage(LanguageDB.changeTime.replace("%s", args[0]));
                 }
             } else {
                 sender.sendMessage(LanguageDB.noPermission);

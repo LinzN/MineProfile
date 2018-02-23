@@ -18,6 +18,7 @@ import de.linzn.mineProfile.task.InventoryLoad;
 import de.linzn.mineProfile.task.InventorySave;
 import de.linzn.mineProfile.utils.HashDB;
 import de.linzn.mineProfile.utils.MinePlayerProfile;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 
@@ -55,11 +56,25 @@ public class PlayerDataAPI {
             player.setMaxHealth(data.getMaxHealth());
             player.setHealth(data.getHealth());
             player.setFoodLevel(data.getFood());
-            player.setGameMode(data.getGameMode());
             player.setFireTicks(data.getFireTicks());
             player.getInventory().setHeldItemSlot(data.getSlot());
-            new FlyMode(player, data.getFlyInt(), false);
-            new VanishMode(player, data.getVanishInt(), false);
+
+            if (player.hasPermission("mineProfile.team.gamemode")) {
+                player.setGameMode(data.getGameMode());
+            } else {
+                player.setGameMode(GameMode.SURVIVAL);
+            }
+            if (player.hasPermission("mineProfile.team.fly")) {
+                new FlyMode(player, data.getFlyInt(), false);
+            } else {
+                new FlyMode(player, 0, false);
+            }
+
+            if (player.hasPermission("mineProfile.team.vanish")) {
+                new VanishMode(player, data.getVanishInt(), false);
+            } else {
+                new VanishMode(player, 0, false);
+            }
         });
 
     }

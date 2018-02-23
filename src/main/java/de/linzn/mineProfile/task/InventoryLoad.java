@@ -14,6 +14,7 @@ import de.linzn.mineLib.actionBar.MineActionBar;
 import de.linzn.mineProfile.MineProfilePlugin;
 import de.linzn.mineProfile.core.PlayerDataAPI;
 import de.linzn.mineProfile.database.ProfileQuery;
+import de.linzn.mineProfile.modies.VanishMode;
 import de.linzn.mineProfile.utils.HashDB;
 import org.bukkit.entity.Player;
 
@@ -32,6 +33,7 @@ public class InventoryLoad extends ProfileQuery {
                 MineProfilePlugin.inst().getLogger().info("Create: " + player.getName());
                 ProfileQuery.createProfile(player.getUniqueId());
                 HashDB.authLock.remove(player.getUniqueId());
+                new VanishMode(player, 0, false);
                 player.sendMessage("§aDein Profil wurde erstellt.");
                 return;
             }
