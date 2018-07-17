@@ -48,7 +48,7 @@ public class CommandGive implements CommandExecutor {
                     Material material = Material.matchMaterial(args[1]);
 
                     if (material == null) {
-                        material = Bukkit.getUnsafe().getMaterialFromInternalName(args[1]);
+                        material = Material.getMaterial(args[1], true);
                     }
 
                     if (material != null) {

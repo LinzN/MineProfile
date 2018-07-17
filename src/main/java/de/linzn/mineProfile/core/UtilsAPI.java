@@ -35,7 +35,7 @@ public class UtilsAPI {
     }
 
     public static ItemStack setArtificiallyItem(String player, ItemStack item) {
-        if ((item != null) && (item.getType() != Material.AIR) && (item.getType() != Material.BOOK_AND_QUILL)
+        if ((item != null) && (item.getType() != Material.AIR) && (item.getType() != Material.LEGACY_BOOK_AND_QUILL)
                 && (!isArtificiallyItem(item))) {
             ItemMeta meta = item.getItemMeta();
             List<String> lore = new ArrayList<>();
