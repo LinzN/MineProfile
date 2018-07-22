@@ -3,6 +3,8 @@ version: ${project.version}
 description: SQL Inventory plugin for bungeecord
 author: Kekshaus
 main: de.linzn.mineProfile.MineProfilePlugin
+api-version: 1.13
+
 commands:
    inv:
       description: Alle mineProfile Commands
