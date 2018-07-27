@@ -35,14 +35,14 @@ public class UtilsAPI {
     }
 
     public static ItemStack setArtificiallyItem(String player, ItemStack item) {
-        if ((item != null) && (item.getType() != Material.AIR) && (item.getType() != Material.LEGACY_BOOK_AND_QUILL)
+        if ((item != null) && (item.getType() != Material.AIR) && (item.getType() != Material.WRITABLE_BOOK)
                 && (!isArtificiallyItem(item))) {
             ItemMeta meta = item.getItemMeta();
             List<String> lore = new ArrayList<>();
             if (meta.hasLore()) {
                 lore = meta.getLore();
             }
-            lore.add(0, "Artificially");
+            lore.add(0,"Artificially");
             lore.add(1, player);
             lore.add(2, new SimpleDateFormat("dd.MM.yyyy '-' HH:mm").format(new Date()));
             meta.setLore(lore);

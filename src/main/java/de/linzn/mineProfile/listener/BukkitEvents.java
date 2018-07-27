@@ -167,7 +167,7 @@ public class BukkitEvents extends ProfileQuery implements Listener {
 
     @EventHandler
     public void onCreativeClick(InventoryCreativeEvent event) {
-        event.setCursor(UtilsAPI.setArtificiallyItem(event.getWhoClicked().getName(), event.getCursor()));
+            event.setCursor(UtilsAPI.setArtificiallyItem(event.getWhoClicked().getName(), event.getCursor()));
     }
 
     @EventHandler
