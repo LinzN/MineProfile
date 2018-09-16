@@ -42,9 +42,13 @@ public class InventoryLoad extends ProfileQuery {
             }
             MineProfilePlugin.inst().getLogger().info("Load: " + player.getName());
 
-            while (loopNumber <= 10 && !loaded) {
+            while (loopNumber <= 15 && !loaded) {
                 try {
-                    Thread.sleep(100);
+                    if (loopNumber > 10){
+                        Thread.sleep(100 * loopNumber - 9);
+                    } else {
+                        Thread.sleep(100);
+                    }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
