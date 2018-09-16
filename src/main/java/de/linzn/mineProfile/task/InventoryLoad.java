@@ -43,18 +43,18 @@ public class InventoryLoad extends ProfileQuery {
             MineProfilePlugin.inst().getLogger().info("Load: " + player.getName());
 
             while (loopNumber <= 15 && !loaded) {
+                int sleepTime = 100;
+                if (loopNumber > 10){
+                    sleepTime = 100 * loopNumber - 9;
+                }
                 try {
-                    if (loopNumber > 10){
-                        Thread.sleep(100 * loopNumber - 9);
-                    } else {
-                        Thread.sleep(100);
-                    }
+                        Thread.sleep(sleepTime);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
                 if (PlayerDataAPI.debug()) {
-                    MineProfilePlugin.inst().getLogger().info("Load try " + loopNumber + " for: " + player.getName());
+                    MineProfilePlugin.inst().getLogger().info("Load try " + loopNumber + ": " + player.getName() + " (" +sleepTime+"ms)");
                 }
 
                 if (!ProfileQuery.isProfileBlocked(player.getUniqueId())) {
