@@ -45,7 +45,7 @@ public class InventoryLoad extends ProfileQuery {
             while (loopNumber <= 15 && !loaded) {
                 int sleepTime = 100;
                 if (loopNumber > 10){
-                    sleepTime = 100 * loopNumber - 9;
+                    sleepTime = 100 * (loopNumber - 9);
                 }
                 try {
                         Thread.sleep(sleepTime);
