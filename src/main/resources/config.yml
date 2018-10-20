@@ -27,6 +27,9 @@ disabledWorlds:
 creativeWorlds:
     - testwelt
 
+disabledCommands:
+    - ma
+
 Config:
 # Do not touch!
   version: 1.0

@@ -28,6 +28,7 @@ public class CookieConfig {
     public boolean loaded = false;
     public List<String> disabledWorlds;
     public List<String> creativeWorlds;
+    public List<String> disabledCommands;
     private FileConfiguration config;
 
     public CookieConfig(final MineProfilePlugin plugin) {
@@ -93,6 +94,14 @@ public class CookieConfig {
         ArrayList<String> creative = new ArrayList<>();
         creative.add("creativtest");
         creativeWorlds = get("creativeWorlds", creative);
+
+        ArrayList<String> commands = new ArrayList<>();
+        commands.add("mobarena");
+        commands.add("ma");
+        commands.add("minegames");
+        commands.add("mg");
+        commands.add("sg");
+        disabledCommands = get("disabledCommands", commands);
 
     }
 }

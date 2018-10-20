@@ -17,6 +17,7 @@ import de.linzn.mineProfile.database.ProfileQuery;
 import de.linzn.mineProfile.modies.InvGamemode;
 import de.linzn.mineProfile.modies.VanishMode;
 import de.linzn.mineProfile.utils.HashDB;
+import de.linzn.mineProfile.utils.LanguageDB;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -159,7 +160,7 @@ public class BukkitEvents extends ProfileQuery implements Listener {
                 p.getInventory().clear();
                 new InvGamemode(event.getPlayer(), 1, false);
             }, 10L);
-            ;
+
         }
 
 
@@ -185,5 +186,18 @@ public class BukkitEvents extends ProfileQuery implements Listener {
             }
         }
     }
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onPlayerCommand(PlayerCommandPreprocessEvent event) {
+        String command = event.getMessage().split(" ")[0].replace("/", "");
+        Player player = event.getPlayer();
+        if (MineProfilePlugin.inst().getCookieConfig().disabledWorlds.contains(player.getWorld().getName()) || MineProfilePlugin.inst().getCookieConfig().creativeWorlds.contains(player.getWorld().getName())){
+            if (MineProfilePlugin.inst().getCookieConfig().disabledCommands.contains(command)){
+                event.setCancelled(true);
+                player.sendMessage(LanguageDB.warningCommandDisabled);
+            }
+        }
 
-}
+    }
+
+
+    }

@@ -23,6 +23,7 @@ public class LanguageDB {
     public static String weatherAvailable = "§c§lVerfügbar: §eSUN, RAIN, THUNDER";
     public static String gamemodeError = "§c§lBenutze: §e/gm (GameMode) oder /gm <Spieler> (GameMode)";
     public static String warningDisabledworldVanish = "§4§lACHTUNG! In dieser Welt ist MineProfile deaktiviert. Das Vanish gilt nur für diese Welt. Nicht außerhalb!!";
+    public static String warningCommandDisabled = "§4§lACHTUNG! Der Befehl ist in dieser Welt aus Sicherheitsgründen deaktiviert.";
 
     public static String title1 = "§e§n§6-===========[§2§lMineProfile by Kekshaus§r§6]============-";
     public static String title2 = " §a§lInventar bei Fehler manuell laden : §e/inv load";
