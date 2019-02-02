@@ -34,6 +34,17 @@ public class UtilsAPI {
         return false;
     }
 
+    public static String getParentArtificiallyName(ItemStack item){
+        String name = "Not Registered";
+        if ((item != null) && (item.hasItemMeta())) {
+            ItemMeta meta = item.getItemMeta();
+            if (meta.hasLore()) {
+                name = meta.getLore().get(1);
+            }
+        }
+        return name;
+    }
+
     public static ItemStack setArtificiallyItem(String player, ItemStack item) {
         if ((item != null) && (item.getType() != Material.AIR) && (item.getType() != Material.WRITABLE_BOOK)
                 && (!isArtificiallyItem(item))) {

@@ -181,7 +181,7 @@ public class BukkitEvents extends ProfileQuery implements Listener {
         for (int i = 0; i < j; i++) {
             ItemStack item = arrayOfItemStack[i];
             if (UtilsAPI.isArtificiallyItem(item)) {
-                UtilsAPI.setArtificiallyItem(event.getViewers().get(0).getName(), event.getInventory().getItem(0));
+                UtilsAPI.setArtificiallyItem(UtilsAPI.getParentArtificiallyName(item), event.getInventory().getItem(0));
                 break;
             }
         }
